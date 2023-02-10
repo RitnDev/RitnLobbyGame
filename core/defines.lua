@@ -18,9 +18,11 @@ defines.directory = dir
 defines.class = {
     surface = dir .. ".classes.RitnSurface",
     ----
+    guiButtonMenu = dir .. ".classes.RitnGuiMenuButton",
     guiLobby = dir .. ".classes.RitnGuiLobby",
     guiCommon = dir .. ".classes.RitnGuiCommon",
     guiRequest = dir .. ".classes.RitnGuiRequest",
+    guiMenu = dir .. ".classes.RitnGuiMenu",
 }
 
 
@@ -34,6 +36,7 @@ defines.modules = {
     lobby = dir .. ".modules.lobby",
     common = dir .. ".modules.common",
     request = dir .. ".modules.request",
+    menu = dir .. ".modules.menu",
     ----
 }
 
@@ -49,6 +52,13 @@ defines.graphics = {
     },
 }
 
+-- prototypes
+local prototypes = dir .. ".prototypes."
+defines.prototypes = {
+    customInputs = prototypes .. "custom-inputs"
+}
+
+
 defines.gui_actions = {
     lobby = {
         open = "open",
@@ -62,7 +72,17 @@ defines.gui_actions = {
         accept = "button-accept",
         reject = "button-reject",
         rejectAll = "button-reject_all",
-    }
+    },
+    ritn = {
+        open = "open",
+        close = "close",
+        menu = "button-menu",
+    },
+    menu = {
+        open = "open",
+        close = "close",
+        toggle = "toggle",
+    },
 }
 
 
@@ -167,13 +187,9 @@ defines.names.caption = {
     frame_menu = {
         titre = {"frame-menu.titre"},
         button_restart = {"frame-menu.button-restart"},
-        button_exclusion = {"frame-menu.button-exclusion"},
+        button_exclure = {"frame-menu.button-exclure"},
         label_admin = {"frame-menu.label-admin"},
-        button_tp= {"frame-menu.button-tp"},
         button_clean = {"frame-menu.button-clean"},
-    },
-
-    frame_surfaces = {
         button_close = {"frame-surfaces.button-close"},
         button_valid = {"frame-surfaces.button-valid"},
     },

@@ -4,6 +4,6 @@ require("core.defines")
 
 
 -- require
-require ("prototypes.custom-inputs")
+require(ritnlib.defines.lobby.prototypes.customInputs)
 require(ritnlib.defines.fonts) -- FONTS
 require (ritnlib.defines.lobby.gui.styles)

@@ -55,7 +55,7 @@ data:extend {
 		order = ritnlib.defines.lobby.name_prefix .. "lobby-01"
 	},
 	{
-		-- Activation du bouton menu
+		-- Envoie d'un message lorsqu'une recherche est terminé et que nous sommes pas sur notre surface
 		type = "bool-setting",
 		name = ritnlib.defines.lobby.names.settings.show_research,
 		setting_type = "runtime-per-user",

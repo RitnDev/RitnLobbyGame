@@ -34,6 +34,12 @@ function events.on_init(event)
     remote.call('RitnBaseGame', "disable.lobby.on_player_changed_surface")
 end
  
+------------------------------------------------------------------------------------------------------------------------
+-- event : custom-input -> toggle_main_menu
+script.on_event(ritnlib.defines.lobby.names.customInput.toggle_main_menu, function(event)
+    remote.call("RitnLobbyGame", "gui_action_ritn", "button-menu", event)
+end)
+
 
 
 -------------------------------------------

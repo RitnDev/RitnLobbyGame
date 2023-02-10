@@ -1,5 +1,6 @@
 local RitnGuiLobby = require(ritnlib.defines.lobby.class.guiLobby)
 local RitnGuiRequest = require(ritnlib.defines.lobby.class.guiRequest)
+local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
 local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 ------------------------------------------------------------------------------
 
@@ -31,6 +32,15 @@ local lobby_interface = {
             RitnGuiRequest(event, applicant):action_rejectAll()
         end
     end,
+    ["gui_action_ritn"] = function(action, event)
+        if action == ritnlib.defines.lobby.gui_actions.ritn.open then 
+            RitnGuiMenuButton(event):action_open()
+        elseif action == ritnlib.defines.lobby.gui_actions.ritn.close then 
+            RitnGuiMenuButton(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.ritn.menu then 
+            RitnGuiMenuButton(event):action_menu()
+        end
+    end,
     --requests manager
     ["request.accept"] = function(player_name, applicant)
         RitnSurface(game.surfaces[player_name]):acceptRequest(applicant)
@@ -50,7 +60,10 @@ local lobby_interface = {
     end,
     ["disable.module.request"] = function()
         global.lobby.modules.request = false
-    end
+    end,
+    ["disable.module.menu"] = function()
+        global.lobby.modules.menu = false
+    end,
 }
 
 

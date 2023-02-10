@@ -9,10 +9,13 @@ modules.interfaces =            require(ritnlib.defines.lobby.modules.interfaces
 
 -- modules gui :
 if global.lobby.modules.lobby then
-    modules.lobby =                 require(ritnlib.defines.lobby.modules.lobby) 
+    modules.lobby =             require(ritnlib.defines.lobby.modules.lobby) 
 end
 if global.lobby.modules.request then
-    modules.request =                require(ritnlib.defines.lobby.modules.request) 
+    modules.request =           require(ritnlib.defines.lobby.modules.request) 
+end
+if global.lobby.modules.menu then
+    modules.menu =              require(ritnlib.defines.lobby.modules.menu) 
 end
 ------------------------------------------------------------------------------
 return modules

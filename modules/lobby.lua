@@ -36,8 +36,6 @@ end
 
 local function on_gui_click(e)
     RitnGuiLobby(e):on_gui_click()
-    ----
-    log('on_gui_click')
 end
 
 
