@@ -1,0 +1,18 @@
+local modules = {}
+------------------------------------------------------------------------------
+
+-- Inclus les events onInit et onLoad + les ajouts de commandes
+modules.events =                require(ritnlib.defines.lobby.modules.events)
+modules.interfaces =            require(ritnlib.defines.lobby.modules.interfaces)
+
+---- Modules désactivable
+
+-- modules gui :
+if global.lobby.modules.lobby then
+    modules.lobby =                 require(ritnlib.defines.lobby.modules.lobby) 
+end
+if global.lobby.modules.request then
+    modules.request =                require(ritnlib.defines.lobby.modules.request) 
+end
+------------------------------------------------------------------------------
+return modules
