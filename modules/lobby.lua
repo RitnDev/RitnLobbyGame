@@ -11,6 +11,7 @@ local RitnGuiLobby = require(ritnlib.defines.lobby.class.guiLobby)
 local function on_player_changed_surface(e)
     local rEvent = RitnEvent(e)
     local rPlayer = RitnEvent(e):getPlayer()
+    local rSurface = rEvent:getSurface()
 
     if string.sub(rPlayer.surface.name, 1, string.len(rEvent.prefix_lobby)) == rEvent.prefix_lobby then
         local rSurface = rEvent:getSurface()
@@ -28,6 +29,7 @@ local function on_player_changed_surface(e)
             RitnGuiLobby(event):action_close()
         end
     end
+    
     ----
     log('on_player_changed_surface')
 end

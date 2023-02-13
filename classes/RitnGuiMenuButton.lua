@@ -4,6 +4,8 @@ local class = require(ritnlib.defines.class.core)
 ----------------------------------------------------------------
 local guiButtonMenu = require(ritnlib.defines.menu.class.guiButtonMenu)
 ----------------------------------------------------------------
+local RitnGuiMenu = require(ritnlib.defines.lobby.class.guiMenu)
+----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
 local RitnGuiMenuButton = class.newclass(guiButtonMenu, function(base, event)
@@ -44,7 +46,7 @@ end
 
 
 function RitnGuiMenuButton:action_menu()
-    --RitnGuiMenu(self.event):action_toggle_menu()
+    RitnGuiMenu(self.event):action_toggle_menu()
     log('> ('..self.mod_name..') -> '.. self.object_name..':action_menu('.. self.player.name ..')')
     return self
 end

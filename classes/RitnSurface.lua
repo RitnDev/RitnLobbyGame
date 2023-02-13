@@ -16,9 +16,11 @@ local RitnSurface = class.newclass(RitnCoreSurface, function(base, LuaSurface)
     if LuaSurface.valid == false then return end
     if LuaSurface.object_name ~= "LuaSurface" then return end
     RitnCoreSurface.init(base, LuaSurface)
+    log('> '..base.object_name..':init() -> RitnLobbyGame')
     --------------------------------------------------
     base.data_request = remote.call("RitnCoreGame", "get_data", "request")
     --------------------------------------------------
+    log('> [RitnLobbyGame] > RitnSurface')
 end)
 
 ----------------------------------------------------------------
@@ -30,6 +32,7 @@ function RitnSurface:createRequest(applicant)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     
     if not self.data[self.name].requests[applicant] then 
+        log('> '..self.object_name..':createRequest('..applicant..') -> for : '..self.name)
         local rPlayer = RitnPlayer(game.players[applicant])
 
         self.data[self.name].requests[applicant] = self.data_request
@@ -41,7 +44,7 @@ function RitnSurface:createRequest(applicant)
         remote.call("RitnCoreGame", "set_options", options)
 
         rPlayer.player.print({"msg.send-request", self.name}, {r = 1, g = 0, b = 0, a = 0.3})
-           
+
         self:update()
 
         -- créer la fenetre "gui_request" à l'utilisateur ciblé
@@ -83,6 +86,9 @@ function RitnSurface:acceptRequest(request_name)
 
                     -- Teleportation sur la surface du personnage.
                     rPlayer:teleport({0,0}, self.name, true)
+                    
+                    -- ajout du joueur à la surface (OVERRIDE : on_player_changed_surface)
+                    self:addPlayer(rPlayer.player)
 
                     -- suppression de la request
                     self.data[self.name].requests[request_name] = nil
@@ -98,8 +104,7 @@ function RitnSurface:acceptRequest(request_name)
             self.data[self.name].requests[request_name] = nil
         end
     end
-
-
+ 
     self:update()
 
     return self

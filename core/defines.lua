@@ -23,6 +23,8 @@ defines.class = {
     guiCommon = dir .. ".classes.RitnGuiCommon",
     guiRequest = dir .. ".classes.RitnGuiRequest",
     guiMenu = dir .. ".classes.RitnGuiMenu",
+    guiSurfaces = dir .. ".classes.RitnGuiSurfaces",
+    guiRestart = dir .. ".classes.RitnGuiRestart"
 }
 
 
@@ -39,6 +41,9 @@ defines.modules = {
     menu = dir .. ".modules.menu",
     ----
 }
+
+-- Functions
+defines.functions = dir .. ".core.functions"
 
 
 -- graphics (gui)
@@ -82,7 +87,16 @@ defines.gui_actions = {
         open = "open",
         close = "close",
         toggle = "toggle",
+        restart = "button-restart",
+        exclure = "button-exclure",
+        clean = "button-clean",
     },
+    surfaces = {
+        open = "open",
+        close = "close",
+        valid = "button-valid",
+        back = "button-close",
+    }
 }
 
 
@@ -97,6 +111,8 @@ defines.gui.lobby = dir_gui .. "lobby"
 defines.gui.common = dir_gui .. "common"
 defines.gui.request = dir_gui .. "request"
 defines.gui.menu = dir_gui .. "menu"
+defines.gui.surfaces = dir_gui .. "surfaces"
+defines.gui.restart = dir_gui .. "restart"
 ---------------------------
 
 -- Prefix.
@@ -146,25 +162,10 @@ defines.value.settings = {
     },
 }
 
--- sprite
-defines.names.sprite = {
-    close = "sprite-close",
-    link = "sprite-link",
-    unlink = "sprite-unlink",
-    portal = "sprite-portal",
-    rejectAll = "sprite-close",
-}
-
 
 defines.names.styles = {
-
-    open_button = "entity_open_button",
-    button_main =  "style_button_main",
-
     ritn_normal_sprite_button = "ritn_normal_sprite_button",
     ritn_red_sprite_button = "ritn_red_sprite_button",
-    ritn_main_sprite_button = "ritn_main_sprite_button",
-
 }
 
 
@@ -176,7 +177,6 @@ defines.names.caption = {
         not_link = {"msg.not-link"},
         no_surface = {"msg.no-surfaces"},
         no_select = {"msg.no-selected"},
-        dest_not_find = {"msg.dest-not-find"},
         no_access = {"msg.no-access"},
         local_party = {"msg.local"},
         restart = {"msg.restart"},
@@ -190,6 +190,9 @@ defines.names.caption = {
         button_exclure = {"frame-menu.button-exclure"},
         label_admin = {"frame-menu.label-admin"},
         button_clean = {"frame-menu.button-clean"},
+    },
+
+    frame_surfaces = {
         button_close = {"frame-surfaces.button-close"},
         button_valid = {"frame-surfaces.button-valid"},
     },

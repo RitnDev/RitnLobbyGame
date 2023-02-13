@@ -1,6 +1,6 @@
 local libGuiElement = require(ritnlib.defines.class.gui.element)
 local captions = ritnlib.defines.lobby.names.caption.frame_menu
-local font = ritnlib.defines.names.font
+
 
 local function getElement(gui_name)
     return {
@@ -8,15 +8,9 @@ local function getElement(gui_name)
             menu = libGuiElement(gui_name,"flow","menu"):horizontal():get(),
             restart = libGuiElement(gui_name,"flow","restart"):vertical():get(),
             admin = libGuiElement(gui_name,"flow","admin"):vertical():get(),
-            clean = libGuiElement(gui_name,"flow","clean"):vertical():visible(false):get(),
-            exclusion = libGuiElement(gui_name,"flow","exclusion"):vertical():visible(false):get(),
-            surfaces_clean = libGuiElement(gui_name,"flow","surfaces_clean"):vertical():get(),
-            surfaces_exclusion = libGuiElement(gui_name,"flow","surfaces_exclusion"):vertical():get(),
-            dialog = libGuiElement(gui_name,"flow","dialog"):horizontal():get(),
         },
         frame = {
-            main = libGuiElement(gui_name,"frame","main"):caption(captions.titre):get(),
-            surfaces = libGuiElement(gui_name,"frame","surfaces"):visible(false):get(),
+            main = libGuiElement(gui_name,"frame","main"):vertical():caption(captions.titre):get(),
         },
         label = {
             admin = libGuiElement(gui_name,"label","admin"):caption(captions.label_admin):get(),
@@ -25,11 +19,8 @@ local function getElement(gui_name)
             restart = libGuiElement(gui_name,"button","restart"):caption(captions.button_restart):visible(false):get(),
             exclure = libGuiElement(gui_name,"button","exclure"):caption(captions.button_exclure):enabled(false):get(),
             clean = libGuiElement(gui_name,"button","clean"):caption(captions.button_clean):get(),
-            close = libGuiElement(gui_name,"button","close"):caption(captions.button_close):style("red_back_button"):get(),
-            valid = libGuiElement(gui_name,"button","valid"):caption(captions.button_valid):style("confirm_button"):get(),
         },
-        pane = libGuiElement(gui_name,"scroll-pane","pane"):get(),
-        list = libGuiElement(gui_name,"list-box","surfaces"):get(),
+        line = libGuiElement(gui_name,"line","line"):horizontal():get(),
     }
 end
 
@@ -48,38 +39,11 @@ local function getContent()
                 "frame-main",
                 "flow-admin"
             },
-            clean = {
-                "flow-menu",
-                "frame-surfaces",
-                "flow-clean"
-            },
-            exclusion = {
-                "flow-menu",
-                "frame-surfaces",
-                "flow-exclusion"
-            },
-            surfaces_clean = {
-                "flow-menu",
-                "frame-surfaces",
-                "flow-clean",
-                "flow-surfaces_clean"
-            },
-            surfaces_exclusion = {
-                "flow-menu",
-                "frame-surfaces",
-                "flow-exclusion",
-                "flow-surfaces_exclusion"
-            },
-            dialog = {},
         },
         frame = {
             main = {
                 "flow-menu",
                 "frame-main",
-            },
-            surfaces = {
-                "flow-menu",
-                "frame-surfaces",
             },
         },
         label = {
@@ -109,11 +73,7 @@ local function getContent()
                 "flow-admin",
                 "button-clean"
             },
-            close = {},
-            valid = {},
         },
-        pane = {},
-        list = {},
     }
 end
 

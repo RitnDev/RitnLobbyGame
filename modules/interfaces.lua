@@ -1,6 +1,8 @@
 local RitnGuiLobby = require(ritnlib.defines.lobby.class.guiLobby)
 local RitnGuiRequest = require(ritnlib.defines.lobby.class.guiRequest)
 local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
+local RitnGuiMenu = require(ritnlib.defines.lobby.class.guiMenu)
+local RitnGuiSurfaces = require(ritnlib.defines.lobby.class.guiSurfaces)
 local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 ------------------------------------------------------------------------------
 
@@ -41,15 +43,47 @@ local lobby_interface = {
             RitnGuiMenuButton(event):action_menu()
         end
     end,
+    ["gui_action_menu"] = function(action, event)
+        if action == ritnlib.defines.lobby.gui_actions.menu.open then 
+            RitnGuiMenu(event):action_open()
+        elseif action == ritnlib.defines.lobby.gui_actions.menu.close then 
+            RitnGuiMenu(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.menu.toggle then 
+            RitnGuiMenu(event):action_toggle_menu()
+        elseif action == ritnlib.defines.lobby.gui_actions.menu.restart then 
+            RitnGuiMenu(event):action_restart()
+        elseif action == ritnlib.defines.lobby.gui_actions.menu.exclure then 
+            RitnGuiMenu(event):action_exclure()
+        elseif action == ritnlib.defines.lobby.gui_actions.menu.clean then 
+            RitnGuiMenu(event):action_clean()
+        end
+    end,
+    ["gui_action_surfaces"] = function(action, event)
+        if action == ritnlib.defines.lobby.gui_actions.surfaces.open then 
+            RitnGuiSurfaces(event):action_open()
+        elseif action == ritnlib.defines.lobby.gui_actions.surfaces.close then 
+            RitnGuiSurfaces(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.surfaces.back then 
+            RitnGuiSurfaces(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.surfaces.valid then 
+            RitnGuiSurfaces(event):action_valid()
+        end
+    end,
     --requests manager
     ["request.accept"] = function(player_name, applicant)
+        log('> intefaces -> request.accept')
         RitnSurface(game.surfaces[player_name]):acceptRequest(applicant)
+        log('> intefaces -> request.accept : ok !')
     end,
     ["request.reject"] = function()
+        log('> intefaces -> request.reject')
         RitnSurface(game.surfaces[player_name]):rejectRequest(applicant)
+        log('> intefaces -> request.reject : ok !')
     end,
     ["request.rejectAll"] = function()
+        log('> intefaces -> request.rejectAll')
         RitnSurface(game.surfaces[player_name]):rejectAllRequest(applicant)
+        log('> intefaces -> request.rejectAll : ok !')
     end,
     --disable modules
     ["disable.module.commands"] = function()

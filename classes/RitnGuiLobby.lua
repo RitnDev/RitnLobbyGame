@@ -11,11 +11,6 @@ local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
 local font = ritnlib.defines.names.font
 local fGui = require(ritnlib.defines.lobby.gui.lobby)
 ----------------------------------------------------------------
-
-
-
-
-----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
 local RitnGuiLobby = class.newclass(libGui, function(base, event)
@@ -159,7 +154,7 @@ function RitnGuiLobby:action_create()
     -- Creation de la surface joueur
     RitnPlayer(self.player):createSurface()
     RitnGuiMenuButton(self.event):action_open()
-
+    
     log('> '..self.object_name..':action_create('.. self.player.name ..')')
     return self
 end
