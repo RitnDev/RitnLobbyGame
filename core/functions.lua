@@ -1,42 +1,13 @@
 ----------------------------------------------------------------
 -- FUNCTIONS
 ----------------------------------------------------------------
-
-local function exclure()
-
-    local players = remote.call()
+local RitnPlayer = require(ritnlib.defines.core.class.player)
+----------------------------------------------------------------
 
 
---[[ 
-    local surface = LuaPlayer.name
-    if global.teleport.surfaces[surface] then
-        for i,player in pairs(global.teleport.surfaces[surface].origine) do 
-            if player == playerExclure then 
-                -- sauvegarde de l'inventaire avant exclusion
-                ritnlib.inventory.save(game.players[playerExclure], global.teleport.surfaces[surface].inventories[playerExclure])
 
-                -- suppression du joueur dans origine de la map
-                table.remove(global.teleport.surfaces[surface].origine, i)
-                global.teleport.players[playerExclure] = nil
 
-                if game.players[playerExclure] 
-                and game.players[playerExclure].valid 
-                and game.players[playerExclure].connected then   
-                    -- fix 2.0.23
-                    if LuaPlayer.driving then 
-                        -- on fait sortir le joueur du vehicule
-                        LuaPlayer.driving = false
-                    end
-                    -- retour lobby
-                    game.players[playerExclure].teleport({0,0}, "lobby~" .. playerExclure)
-                    game.players[playerExclure].clear_items_inside()
-                end
-            end
-        end
-    end
- ]]
 
-end
 
 
 local function clean() --player_name, LuaPlayer

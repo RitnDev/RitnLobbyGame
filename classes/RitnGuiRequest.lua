@@ -129,7 +129,7 @@ function RitnGuiRequest:action_open()
 end
 
 
--- Bouton accepter
+-- Bouton accept
 function RitnGuiRequest:action_accept()
     log('> '..self.object_name..':action_accept()')
     RitnSurface(game.surfaces[self.name]):acceptRequest(self.request_name)
@@ -138,32 +138,21 @@ function RitnGuiRequest:action_accept()
 end
 
 
-
-
-
-
-
-local function button_accept(LuaPlayer, request_name)
-    local reponse = {name = request_name}
-    ritnlib.player.acceptRequest(LuaPlayer, reponse)
+-- Bouton reject
+function RitnGuiRequest:button_reject()
+    log('> '..self.object_name..':button_reject()')
+    RitnSurface(game.surfaces[self.name]):rejectRequest(self.request_name)
     self:action_close()
-end
-
--- Bouton rejeter
-local function button_reject(LuaPlayer, request_name)
-    local reponse = {name = request_name}
-    ritnlib.player.rejectRequest(LuaPlayer, reponse)
-    self:action_close()
+    return self
 end
 
 -- Bouton rejeter toute nouvelle demande
-local function button_rejectAll(LuaPlayer, request_name)
-    local reponse = {name = request_name}
-    ritnlib.player.rejectAllRequest(LuaPlayer, reponse)
+function RitnGuiRequest:action_rejectAll()
+    log('> '..self.object_name..':action_rejectAll()')
+    RitnSurface(game.surfaces[self.name]):rejectAllRequest(self.request_name)
     self:action_close()
+    return self
 end
-
-
 
 
 ----------------------------------------------------------------

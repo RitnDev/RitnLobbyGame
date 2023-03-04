@@ -135,12 +135,12 @@ function RitnGuiSurfaces:action_valid()
     
     local index = self:getElement("list").selected_index
     if index == nil or index == 0 then return self end
-    local surface = self:getElement("list").get_item(index)
-
+    local itemSelected = self:getElement("list").get_item(index)
+    
     if action_surfaces == 'clean' then 
         --fLobby.clean()
     elseif action_surfaces == 'exclure' then 
-        --fLobby.exclure()
+        --fLobby.exclure(itemSelected)
     end
 
     self:action_close()

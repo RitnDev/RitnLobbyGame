@@ -29,7 +29,7 @@ local lobby_interface = {
         elseif action == ritnlib.defines.lobby.gui_actions.request.accept then 
             RitnGuiRequest(event, applicant):action_accept()
         elseif action == ritnlib.defines.lobby.gui_actions.request.reject then 
-            RitnGuiRequest(event, applicant):action_reject()
+            RitnGuiRequest(event, applicant):button_reject()
         elseif action == ritnlib.defines.lobby.gui_actions.request.rejectAll then 
             RitnGuiRequest(event, applicant):action_rejectAll()
         end

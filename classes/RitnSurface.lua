@@ -111,62 +111,135 @@ function RitnSurface:acceptRequest(request_name)
 end
   
 
-
 -- rejeter une demande en cours
-local function rejectRequest(LuaPlayer, reponse)
-    local playerSend = reponse.name
+function RitnSurface:rejectRequest(request_name)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
-    if not global.teleport.requests[playerSend] then 
-        LuaPlayer.print({"msg.timeout-request"})
-        -- suppression de la request
-        global.teleport.surfaces[LuaPlayer.name].requests[playerSend] = nil
-        return 
-    end
+    log('> '..self.object_name..':rejectRequest('..request_name..') -> reject by : '..self.name)
+    
+    if self.data[self.name].requests[request_name] then
+        if self.data[self.name].requests[request_name].state == 1 then  
+            log('> request.state = 1')
+            local options = remote.call("RitnCoreGame", "get_options")
+            
+            if not options.requests[request_name] then 
+                -- une requete a déjà été accepté ailleurs
+                game.players[self.data[self.name].origine].print({"msg.timeout-request"})
+                -- suppression de la request
+                self.data[self.name].requests[request_name] = nil
+            else
 
-    if global.teleport.requests[playerSend][LuaPlayer.name] then
-        if global.teleport.surfaces[LuaPlayer.name] then 
-            if global.teleport.surfaces[LuaPlayer.name].requests[playerSend] then
-                if global.teleport.surfaces[LuaPlayer.name].requests[playerSend].state == 1 then 
+                if options.requests[request_name][self.name] then 
+                    log('> options.requests.'..request_name..'.'..self.name)
                     -- suppression de la request
-                    global.teleport.surfaces[LuaPlayer.name].requests[playerSend] = nil
-                    global.teleport.requests[playerSend][LuaPlayer.name] = nil
+                    self.data[self.name].requests[request_name] = nil
+                    options.requests[request_name] = nil
                     -- envoie un message comme quoi la demande a été refusé !
-                    if game.players[playerSend].valid and game.players[playerSend].connected then
-                        game.players[playerSend].print({"msg.reject-request", LuaPlayer.name})
+                    if game.players[request_name].valid and game.players[request_name].connected then
+                        game.players[request_name].print({"msg.reject-request", self.name})
                     end
-                end
+                end 
+
             end
+
+            remote.call("RitnCoreGame", "set_options", options)
+
+        elseif self.data[self.name].requests[request_name].state == 0 then
+            log('> request.state = 0')
+            self.data[self.name].requests[request_name] = nil
         end
     end
+
+    self:update()
+
+    return self
+
+end
+
+
+-- Rejeter toute demande de ce joueur
+function RitnSurface:rejectAllRequest(request_name)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+
+    log('> '..self.object_name..':rejectAllRequest('..request_name..') -> reject by : '..self.name)
+    
+    if self.data[self.name].requests[request_name] then
+        if self.data[self.name].requests[request_name].state == 1 then  
+            log('> request.state = 1')
+            local options = remote.call("RitnCoreGame", "get_options")
+            
+            if not options.requests[request_name] then 
+                -- une requete a déjà été accepté ailleurs
+                game.players[self.data[self.name].origine].print({"msg.timeout-request"})
+                -- suppression de la request
+                self.data[self.name].requests[request_name] = nil
+            else
+
+                if options.requests[request_name][self.name] then 
+                    log('> options.requests.'..request_name..'.'..self.name)
+                    
+                    -- suppression de la request
+                    self.data[self.name].requests[request_name].state = 0
+                    self.data[self.name].requests[request_name].reject_all=true
+                    options.requests[request_name] = nil
+                    -- envoie un message comme quoi la demande a été refusé !
+                    if game.players[request_name].valid and game.players[request_name].connected then
+                        game.players[request_name].print({"msg.reject-request", self.name})
+                    end
+                end 
+
+            end
+            remote.call("RitnCoreGame", "set_options", options)
+        end
+    end
+
+    self:update()
+
+    return self
+
 end
   
--- Rejeter toute demande de ce joueur
-local function rejectAllRequest(LuaPlayer, reponse)
-    local playerSend = reponse.name
 
-    if not global.teleport.requests[playerSend] then 
-        LuaPlayer.print({"msg.timeout-request"})
-        -- suppression de la request
-        global.teleport.surfaces[LuaPlayer.name].requests[playerSend] = nil
-        return 
-    end
 
-    if global.teleport.requests[playerSend][LuaPlayer.name] then
-        if global.teleport.surfaces[LuaPlayer.name] then 
-            if global.teleport.surfaces[LuaPlayer.name].requests[playerSend] then
-                if global.teleport.surfaces[LuaPlayer.name].requests[playerSend].state == 1 then 
-                    -- suppression de la request
-                    global.teleport.surfaces[LuaPlayer.name].requests[playerSend].state = 0
-                    global.teleport.surfaces[LuaPlayer.name].requests[playerSend].reject_all=true
-                    global.teleport.requests[playerSend][LuaPlayer.name] = nil
-                    -- envoie un message comme quoi la demande a été refusé !
-                    if game.players[playerSend].valid and game.players[playerSend].connected then
-                        game.players[playerSend].print({"msg.reject-request", LuaPlayer.name})
+-- @player_name : nom du joueur à exclure
+function RitnSurface:exclure(player_name)
+    local rPlayer = RitnPlayer(game.players[player_name])
+    if rPlayer == nil then return end
+
+    -- get player
+    local players = remote.call("RitnCoreGame", "get_players")
+    local player = players[rPlayer.index]
+
+
+--[[ 
+    local surface = LuaPlayer.name
+    if global.teleport.surfaces[surface] then
+        for i,player in pairs(global.teleport.surfaces[surface].origine) do 
+            if player == playerExclure then 
+                -- sauvegarde de l'inventaire avant exclusion
+                ritnlib.inventory.save(game.players[playerExclure], global.teleport.surfaces[surface].inventories[playerExclure])
+
+                -- suppression du joueur dans origine de la map
+                table.remove(global.teleport.surfaces[surface].origine, i)
+                global.teleport.players[playerExclure] = nil
+
+                if game.players[playerExclure] 
+                and game.players[playerExclure].valid 
+                and game.players[playerExclure].connected then   
+                    -- fix 2.0.23
+                    if LuaPlayer.driving then 
+                        -- on fait sortir le joueur du vehicule
+                        LuaPlayer.driving = false
                     end
+                    -- retour lobby
+                    game.players[playerExclure].teleport({0,0}, "lobby~" .. playerExclure)
+                    game.players[playerExclure].clear_items_inside()
                 end
             end
         end
     end
+ ]]
+
 end
 
 

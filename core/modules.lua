@@ -4,6 +4,7 @@ local modules = {}
 -- Inclus les events onInit et onLoad + les ajouts de commandes
 modules.events =                require(ritnlib.defines.lobby.modules.events)
 modules.interfaces =            require(ritnlib.defines.lobby.modules.interfaces)
+modules.commands =              require(ritnlib.defines.lobby.modules.commands)
 
 ---- Modules désactivable
 

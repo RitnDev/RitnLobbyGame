@@ -1,11 +1,48 @@
 -- MODULE : COMMANDS
 ---------------------------------------------------------------------------------
--- add command for RitnTeleportation
+local RitnSurface = require(ritnlib.defines.lobby.class.surface)
+local RitnGuiRequest = require(ritnlib.defines.lobby.class.guiRequest)
 ---------------------------------------------------------------------------------
 
 
+
+-- Débloquer les requêtes d'un joueur ou l'accepter
+commands.add_command("accept", "/accept <player>", 
+    function (e)
+        local LuaPlayer = game.players[e.player_index]
+        if LuaPlayer then 
+            local players = remote.call("RitnCoreGame", "get_players")
+            local player = players[LuaPlayer.index]
+
+            if player.name == player.origine then 
+                if e.parameter ~= nil then
+                    local parametre = e.parameter
+                    local player_request = game.players[parametre] -- (LuaPlayer)
+                    
+                    if player_request then  -- (LuaPlayer)
+                        if players[player_request.index] then 
+                            local surfaces = remote.call("RitnCoreGame", "get_surfaces")
+                            local surface = surfaces[player.origine]
+
+                            if surface.requests[player_request.name] then 
+                                RitnSurface(game.surfaces[surface.name]):acceptRequest(player_request.name)
+                                RitnGuiRequest({player_index = LuaPlayer.index}, player_request.name):action_close()
+                            end
+                        end
+                    end
+                end
+            end
+        end 
+
+    end
+)
+
+
+
+
 local function exclusion(playerExclure, surface)
-    if playerExclure == surface then return end
+
+    --[[ if playerExclure == surface then return end
     for i,player in pairs(global.teleport.surfaces[surface].origine) do 
         if player == playerExclure then 
             -- sauvegarde de l'inventaire avant exclusion
@@ -24,7 +61,8 @@ local function exclusion(playerExclure, surface)
             print("Exclusion/Quit : " .. playerExclure .. " - surface : " .. surface .. " OK !")
             log("Exclusion/Quit : " .. playerExclure .. " - surface : " .. surface .. " OK !")
         end
-    end
+    end ]]
+
 end
 
 
@@ -33,7 +71,7 @@ end
 -- Pour admin seulement : exclure un joueur de sa map.
 commands.add_command("exclure", "/exclure <player>", 
 function (e)
-
+--[[ 
     local autorize = false
     local is_player = false
 
@@ -63,7 +101,8 @@ function (e)
                 end
             end
         end
-    end
+    end 
+    ]]
   end
 )
 
@@ -71,6 +110,7 @@ function (e)
 -- Quitter par soit même la map.
 commands.add_command("quit", "/quit", 
     function (e)
+        --[[ 
         local LuaPlayer = game.players[e.player_index]
         if LuaPlayer then 
             local playerExclure = LuaPlayer.name
@@ -78,51 +118,15 @@ commands.add_command("quit", "/quit",
                 local surface = global.teleport.players[playerExclure].origine
                 exclusion(playerExclure, surface)
             end
-        end
+        end 
+        ]]
     end
 )
 
 
-
-
-
-
--- Pour admin seulement : exclure un joueur de sa map.
-commands.add_command("surfaces", "", 
-function (e)
-
-    local LuaPlayer = {}
-    local autorize = false
-    local is_player = false
-
-    if e.player_index then 
-      LuaPlayer = game.players[e.player_index]
-      if LuaPlayer.admin or LuaPlayer.name == "Ritn" then
-        autorize = true
-        is_player = true
-      end
-    else 
-      autorize = true
-    end
-    
-    if autorize then 
-        if is_player then
-          -- by player : admin
-          for _,surface in pairs(global.teleport.surfaces) do 
-            LuaPlayer.print(surface.name)
-          end
-        else 
-          -- by server
-          for _,surface in pairs(global.teleport.surfaces) do 
-            print(surface.name)
-          end
-        end
-      end
-  end
-)
 
 commands.add_command("clean", "<player>", function (e)
-
+--[[ 
   local autorize = false
   local is_player = false
 
@@ -151,11 +155,12 @@ commands.add_command("clean", "<player>", function (e)
           end
       end
   end
-
+ ]]
 end)
 
 commands.add_command("exception", "<add/remove/view> <player>", function(e)
-  local LuaPlayer = game.players[e.player_index]
+ --[[ 
+    local LuaPlayer = game.players[e.player_index]
   if LuaPlayer.admin or LuaPlayer.name == "Ritn" then
       if e.parameter ~= nil then 
 
@@ -185,35 +190,9 @@ commands.add_command("exception", "<add/remove/view> <player>", function(e)
           else
               LuaPlayer.print("-> /exception <add/remove/view> <player>") 
           end 
-  end 
+  end  ]]
 end)
 
-
-
-
-commands.add_command("reset_evo", nil, function(e)
-  local LuaPlayer = game.players[e.player_index]
-  if LuaPlayer.admin or LuaPlayer.name == "Ritn" then
-      for _,surface in pairs(global.tp.surfaces) do 
-          if e.parameter == nil then 
-              surface.time = 0
-              surface.current_time = 0
-              surface.last_time = 0
-              surface.pollution.last = 0
-              surface.pollution.current = 0
-              surface.pollution.count = 0
-          elseif e.parameter == "time" then 
-              surface.time = 0
-              surface.current_time = 0
-              surface.last_time = 0
-          elseif e.parameter == "pollution" then
-              surface.pollution.last = 0
-              surface.pollution.current = 0
-              surface.pollution.count = 0
-          end
-      end
-  end 
-end)
 
 ---------------------------------------------------------------------------------
 local module = { events = {} } 
