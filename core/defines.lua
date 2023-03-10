@@ -32,7 +32,6 @@ defines.class = {
 defines.modules = {
     core = dir .. ".core.modules",
     events = dir .. ".modules.events",
-    interfaces = dir .. ".modules.interfaces",
     commands = dir .. ".modules.commands",
     ----
     lobby = dir .. ".modules.lobby",
