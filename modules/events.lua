@@ -45,6 +45,7 @@ end)
 -------------------------------------------
 -- INIT GLOBAL MOD
 -------------------------------------------
+if not global.lobby then
 global.lobby = { 
     modules = {
         commands = true,
@@ -53,5 +54,6 @@ global.lobby = {
         menu = true,
     }
 }
+end
 -------------------------------------------
 return events
