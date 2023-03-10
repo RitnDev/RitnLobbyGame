@@ -45,14 +45,15 @@ end)
 -------------------------------------------
 -- INIT GLOBAL MOD
 -------------------------------------------
-if not global.lobby then
+if not global.lobby.initialize then
 global.lobby = { 
     modules = {
         commands = true,
         lobby = true,
         request = true,
         menu = true,
-    }
+    },
+    initialize = true
 }
 end
 -------------------------------------------
