@@ -22,6 +22,7 @@ defines.class = {
     guiButtonMenu = dir .. ".classes.RitnGuiMenuButton",
     guiLobby = dir .. ".classes.RitnGuiLobby",
     guiCommon = dir .. ".classes.RitnGuiCommon",
+    guiRestart = dir .. ".classes.RitnGuiRestart",
     guiRequest = dir .. ".classes.RitnGuiRequest",
     guiMenu = dir .. ".classes.RitnGuiMenu",
     guiSurfaces = dir .. ".classes.RitnGuiSurfaces",
@@ -36,6 +37,7 @@ defines.modules = {
     events = dir .. ".modules.events",
     commands = dir .. ".modules.commands",
     ----
+    restart = dir .. ".modules.restart",
     lobby = dir .. ".modules.lobby",
     common = dir .. ".modules.common",
     request = dir .. ".modules.request",
@@ -71,6 +73,12 @@ defines.gui_actions = {
         close = "close",
         create = "button-create",
         request = "button-request",
+    },
+    restart = {
+        open = "open",
+        close = "close",
+        valid = "button-valid",
+        back = "button-back",
     },
     request = {
         open = "open",
@@ -204,7 +212,7 @@ defines.names.caption = {
         titre = {"frame-restart.titre"}, 
         label_warning1 = {"frame-restart.label-warning1"}, 
         label_warning2 = {"frame-restart.label-warning2"}, 
-        button_cancel = {"frame-restart.button-cancel"}, 
+        button_back = {"frame-restart.button-back"}, 
         button_valid = {"frame-restart.button-valid"}, 
     },
 

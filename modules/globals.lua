@@ -5,6 +5,7 @@ if global.lobby == nil then
     global.lobby = { 
         modules = {
             commands = true,
+            restart = true,
             lobby = true,
             request = true,
             menu = true,
@@ -16,6 +17,7 @@ end
 -- REMOTE FUNCTIONS INTERFACE
 ---------------------------------------------------------------------------------------------
 local RitnGuiLobby = require(ritnlib.defines.lobby.class.guiLobby)
+local RitnGuiRestart = require(ritnlib.defines.lobby.class.guiRestart)
 local RitnGuiRequest = require(ritnlib.defines.lobby.class.guiRequest)
 local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
 local RitnGuiMenu = require(ritnlib.defines.lobby.class.guiMenu)
@@ -33,6 +35,17 @@ local lobby_interface = {
             RitnGuiLobby(event):action_create()
         elseif action == ritnlib.defines.lobby.gui_actions.lobby.request then 
             RitnGuiLobby(event):action_request()
+        end
+    end,
+    ["gui_action_restart"] = function(action, event)
+        if action == ritnlib.defines.lobby.gui_actions.restart.open then 
+            RitnGuiRestart(event):action_open()
+        elseif action == ritnlib.defines.lobby.gui_actions.restart.close then 
+            RitnGuiRestart(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.restart.back then 
+            RitnGuiRestart(event):action_close()
+        elseif action == ritnlib.defines.lobby.gui_actions.restart.valid then 
+            RitnGuiRestart(event):action_valid()
         end
     end,
     ["gui_action_request"] = function(action, event, ...)
@@ -106,6 +119,9 @@ local lobby_interface = {
     --disable modules
     ["disable.module.commands"] = function()
         global.lobby.modules.commands = false
+    end,
+    ["disable.module.restart"] = function()
+        global.lobby.modules.restart = false
     end,
     ["disable.module.lobby"] = function()
         global.lobby.modules.lobby = false

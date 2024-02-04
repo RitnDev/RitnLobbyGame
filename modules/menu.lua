@@ -2,6 +2,9 @@
 ---------------------------------------------------------------------------------------------
 local RitnEvent = require(ritnlib.defines.core.class.event)
 local RitnPlayer = require(ritnlib.defines.core.class.player)
+local RitnForce = require(ritnlib.defines.core.class.force)
+---------------------------------------------------------------------------------------------
+local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
 local RitnGuiMenu = require(ritnlib.defines.lobby.class.guiMenu)
 local RitnGuiSurfaces = require(ritnlib.defines.lobby.class.guiSurfaces)
@@ -41,39 +44,16 @@ local function on_player_demoted(e)
     end
 end
 
+local function on_pre_player_left_game(e) 
+    RitnGuiMenuButton(e):action_close()
+end
+
 
 
 local function on_rocket_launched(e)
     local rEvent = RitnEvent(e)
-    local LuaEntity = rEvent.rocket
-    local LuaSurface = LuaEntity.surface
-
-    if not game.is_multiplayer() then return end
-
-    -- TODO refaire pour adapter au mod et plus passer par les tuyaux de RitnTP
-    
-    -- Mise à true de l'info finish de la surface pour activer le bouton menu
-    if global.teleport.surfaces[LuaSurface.name].finish == false then
-      global.teleport.surfaces[LuaSurface.name].finish = true 
-
-      -- Activer le bouton si un/des joueur(s) sont connectés au moment du lancé
-      for _,player in pairs(game.players) do 
-        if player.name == LuaSurface.name then 
-          if player.surface.name == LuaSurface.name then 
-            if player.connected then 
-              local LuaPlayer = player
-              local top = modGui.get_button_flow(LuaPlayer)
-              if not top[ritnmods.teleport.defines.name.gui.menu.button_main] then
-                ritnGui.menu.button_main_show(LuaPlayer)
-              end
-            end
-          end
-        end
-      end
-
-    end
-
-
+    local rSurface = RitnSurface(rEvent.rocket.surface):setFinish(true)
+    local rForce = RitnForce(rEvent.rocket.force):setFinish(true)
 end
 
 
@@ -81,8 +61,10 @@ end
 local module = {events = {}}
 ---------------------------------------------------------------------------------------------
 module.events[defines.events.on_player_created] = on_player_created
+module.events[defines.events.on_pre_player_left_game] = on_pre_player_left_game
 module.events[defines.events.on_gui_click] = on_gui_click
 module.events[defines.events.on_player_promoted] = on_player_promoted
 module.events[defines.events.on_player_demoted] = on_player_demoted
+module.events[defines.events.on_rocket_launched] = on_rocket_launched
 ----------------------
 return module

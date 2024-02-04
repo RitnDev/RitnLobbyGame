@@ -6,6 +6,7 @@ local libStyle = require(ritnlib.defines.class.gui.style)
 local libGui = require(ritnlib.defines.class.luaClass.gui)
 ----------------------------------------------------------------
 local CorePlayer = require(ritnlib.defines.core.class.player)
+local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 ----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.surfaces)
 ----------------------------------------------------------------
@@ -205,28 +206,10 @@ end
 
 -- Action de suppression d'une surface d'un autre joueur dans la liste du menu
 function RitnGuiSurfaces:clean(surface_name)
-    local force_name = surface_name
-    ----
-    -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
-    local players = remote.call("RitnCoreGame", "get_players")
-    for index, player in pairs(players) do 
-        if player.origine == surface_name then 
-            player.origine = ""
-            if player.name == player.origine then 
-                force_name = player.force
-            end
-            local LuaPlayer = game.players[index]
-            if LuaPlayer ~= nil then 
-                local lobby_name = ritnlib.defines.core.names.prefix.lobby .. LuaPlayer.name
-                LuaPlayer.teleport({0,0}, lobby_name)
-            end
-        end
+    local rSurface = RitnSurface(game.surfaces[surface_name])
+    if rSurface then 
+        rSurface:clean()
     end
-    remote.call("RitnCoreGame", "set_players", players)
-    ----
-    game.delete_surface(surface_name)
-    ----
-    if game.forces[force_name] then game.merge_forces(game.forces[force_name], "player") end
     ----
     self:print(self.name.." (clean) : "..surface_name)
     return self

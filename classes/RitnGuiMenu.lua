@@ -6,6 +6,7 @@ local libStyle = require(ritnlib.defines.class.gui.style)
 local libGui = require(ritnlib.defines.class.luaClass.gui)
 ----------------------------------------------------------------
 local RitnGuiSurfaces = require(ritnlib.defines.lobby.class.guiSurfaces)
+local RitnGuiRestart = require(ritnlib.defines.lobby.class.guiRestart)
 ----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.menu)
 ----------------------------------------------------------------
@@ -161,7 +162,7 @@ end
 
 -- Action d'appuie sur le bouton restart
 function RitnGuiMenu:action_restart()
-
+    RitnGuiRestart(self.event):action_open()
     log('> '..self.object_name..':action_restart()')
     return self
 end

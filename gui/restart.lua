@@ -7,21 +7,20 @@ local function getElement(gui_name)
     return {
         flow = {
             main = libGuiElement(gui_name,"flow","main"):vertical():get(),
-            surfaces = libGuiElement(gui_name,"flow","surfaces"):vertical():get(),
             dialog = libGuiElement(gui_name,"flow","dialog"):horizontal():get(),
         },
         frame = {
-            surfaces = libGuiElement(gui_name,"frame","surfaces"):vertical():get(),
+            restart = libGuiElement(gui_name,"frame","restart"):caption(captions.titre):get(),
         },
         button = {
-            close = libGuiElement(gui_name,"button","close"):caption(captions.button_close):style("red_back_button"):get(),
+            back = libGuiElement(gui_name,"button","back"):caption(captions.button_back):style("red_back_button"):get(),
             valid = libGuiElement(gui_name,"button","valid"):caption(captions.button_valid):style("confirm_button"):get(),
         },
         label = {
-            info = libGuiElement(gui_name,"label","info"):visible(false):get(),
+            warning1 = libGuiElement(gui_name,"label","warning1"):caption(captions.label_warning1):get(),
+            warning2 = libGuiElement(gui_name,"label","warning2"):caption(captions.label_warning2):get(),
         },
-        pane = libGuiElement(gui_name,"scroll-pane","pane"):get(),
-        list = libGuiElement(gui_name,"list-box","surfaces"):get(),
+        empty = libGuiElement(gui_name,"empty-widget","empty"):get(),
     }
 end
 
@@ -29,53 +28,52 @@ end
 local function getContent()
     return {
         flow = {
-            surfaces = {
-                "frame-surfaces",
-                "flow-surfaces"
+            main = {
+                "frame-restart",
+                "flow-main",
             },
             dialog = {
-                "frame-surfaces",
-                "flow-surfaces",
+                "frame-restart",
+                "flow-main",
                 "flow-dialog"
             },
         },
         frame = {
-            surfaces = {
-                "frame-surfaces",
+            restart = {
+                "frame-restart",
             },
         },
         button = {
-            close = {
-                "frame-surfaces",
-                "flow-surfaces",
+            back = {
+                "frame-restart",
+                "flow-main",
                 "flow-dialog",
-                "button-close"
+                "button-back"
             },
             valid = {
-                "frame-surfaces",
-                "flow-surfaces",
+                "frame-restart",
+                "flow-main",
                 "flow-dialog",
                 "button-valid"
             },
         },
         label = {
-            info = {
-                "frame-surfaces",
-                "flow-surfaces",
-                "flow-dialog",
-                "label-info"
-            }
+            warning1 = {
+                "frame-restart",
+                "flow-main",
+                "label-warning1"
+            },
+            warning2 = {
+                "frame-restart",
+                "flow-main",
+                "label-warning2"
+            },
         },
-        pane = {
-            "frame-surfaces",
-            "flow-surfaces",
-            "pane-pane",
-        },
-        list = {
-            "frame-surfaces",
-            "flow-surfaces",
-            "pane-pane",
-            "listbox-surfaces"
+        empty = {
+            "frame-restart",
+            "flow-main",
+            "flow-dialog",
+            "empty-empty"
         },
     }
 end

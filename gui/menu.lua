@@ -16,7 +16,7 @@ local function getElement(gui_name)
             admin = libGuiElement(gui_name,"label","admin"):caption(captions.label_admin):get(),
         },
         button = {
-            restart = libGuiElement(gui_name,"button","restart"):caption(captions.button_restart):visible(false):get(),
+            restart = libGuiElement(gui_name,"button","restart"):caption(captions.button_restart):style("red_button"):visible(false):get(),
             exclure = libGuiElement(gui_name,"button","exclure"):caption(captions.button_exclure):enabled(false):get(),
             clean = libGuiElement(gui_name,"button","clean"):caption(captions.button_clean):get(),
             tp = libGuiElement(gui_name,"button","tp"):caption(captions.button_tp):get(),
