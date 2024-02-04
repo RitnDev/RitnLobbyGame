@@ -1,12 +1,13 @@
 -----------------------------------------
 --               DEFINES               --
 -----------------------------------------
-if not ritnlib then  require("__RitnLib__.defines") end
+if not ritnlib then require("__RitnBaseGame__.core.defines") end
+require("__RitnMenuButton__.core.defines")
+-----------------------------------------
 local name = "RitnLobbyGame"
 local dir = "__".. name .."__"
 local directory = dir .. "."
-
-
+-----------------------------------------
 local defines = {}
 
 -- Mod ID.
