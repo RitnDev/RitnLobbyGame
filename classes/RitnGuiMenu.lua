@@ -23,6 +23,7 @@ local RitnGuiMenu = class.newclass(libGui, function(base, event)
             [ritnlib.defines.lobby.gui_actions.menu.toggle] = true,
             [ritnlib.defines.lobby.gui_actions.menu.restart] = true,
             [ritnlib.defines.lobby.gui_actions.menu.exclure] = true,
+            [ritnlib.defines.lobby.gui_actions.menu.tp] = true,
             [ritnlib.defines.lobby.gui_actions.menu.clean] = true,
         }
     }    
@@ -65,6 +66,8 @@ function RitnGuiMenu:create()
     content.line =              content.flow.admin.add(element.line)
     -- label admin
     content.label.admin =       content.flow.admin.add(element.label.admin)
+    -- button tp
+    content.button.tp =         content.flow.admin.add(element.button.tp)
     -- button clean
     content.button.clean =      content.flow.admin.add(element.button.clean)
     
@@ -80,22 +83,31 @@ function RitnGuiMenu:create()
     local surfaces = remote.call("RitnCoreGame", "get_surfaces")
     local players = remote.call("RitnCoreGame", "get_players")
     local player = players[self.index]
-
-    -- player on lobby | disable flow restart (active admin only)
-    if surfaces[player.surface] == nil then 
-        content.flow.restart.visible = false 
-        return
-    end
     local surface = surfaces[player.surface]
 
-    -- get finish game (rocket launch + satellite)
-    local finish = false
-    if surface.finish then 
-        if surface.name == player.name then 
-            finish = true
+    local restart = false
+    -- player on lobby | disable flow restart (active admin only)
+    if surface ~= nil then 
+        -- player on nauvis
+        if player.surface ~= "nauvis" then 
+            -- player est sur sa surface à lui
+            if player.name == player.surface then
+                restart = true
+                local options = remote.call("RitnCoreGame", "get_options")
+                local force_restart = options.lobby.restart
+                -- le parametre de mod qui active en permanence le bouton n'est pas coché
+                if not force_restart then 
+                    -- get finish game (rocket launch + satellite)
+                    if not surface.finish then 
+                        -- le joueur n'a pas fini le jeu
+                        restart = false
+                    end
+                end
+            end
         end
+    else return
     end
-    content.button.restart.visible = finish
+    content.button.restart.visible = restart
 
     -- active button exclude
     local exclude = false
@@ -118,6 +130,7 @@ end
 -- ACTIONS --
 ----------------------------------------------------------------
 
+-- Fermeture du menu
 function RitnGuiMenu:action_close()
     local frame_menu = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_menu then frame_menu.destroy() end
@@ -125,15 +138,16 @@ function RitnGuiMenu:action_close()
     return self
 end
 
-
+-- Ouverture du menu
 function RitnGuiMenu:action_open()
     self:action_close()
+
     self:create()
     log('> '..self.object_name..':action_open()')
     return self
 end
 
-
+-- inverser l'action sur le bouton menu (fermer le menu s'il est ouvert et inversement)
 function RitnGuiMenu:action_toggle_menu()
     local frame_menu = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_menu then 
@@ -145,24 +159,31 @@ function RitnGuiMenu:action_toggle_menu()
     return self
 end
 
-
+-- Action d'appuie sur le bouton restart
 function RitnGuiMenu:action_restart()
 
     log('> '..self.object_name..':action_restart()')
     return self
 end
 
-
+-- Ouverture du GUI RitnGuiSurface pour exclure un joueur de sa carte
 function RitnGuiMenu:action_exclure()
     RitnGuiSurfaces(self.event):action_open("exclure")
     log('> '..self.object_name..':action_exclure()')
     return self
 end
 
-
+-- [ADMIN] Ouverture du GUI RitnGuiSurface pour supprimer la map d'un autre joueur
 function RitnGuiMenu:action_clean()
     RitnGuiSurfaces(self.event):action_open("clean")
     log('> '..self.object_name..':action_clean()')
+    return self
+end
+
+-- [ADMIN] Ouverture du GUI RitnGuiSurface pour ce téléporter sur la map d'un autre joueur
+function RitnGuiMenu:action_tp()
+    RitnGuiSurfaces(self.event):action_open("tp")
+    log('> '..self.object_name..':action_tp()')
     return self
 end
 

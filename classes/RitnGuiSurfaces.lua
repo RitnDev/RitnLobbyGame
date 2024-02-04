@@ -5,6 +5,8 @@ local modGui = require("mod-gui")
 local libStyle = require(ritnlib.defines.class.gui.style)
 local libGui = require(ritnlib.defines.class.luaClass.gui)
 ----------------------------------------------------------------
+local CorePlayer = require(ritnlib.defines.core.class.player)
+----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.surfaces)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
@@ -88,10 +90,20 @@ function RitnGuiSurfaces:create(action_surface)
     if action_surface == "clean" then 
         for _,surface in pairs(surfaces) do 
             if surface.name ~= nil then
-                if game.players[surface.name] ~= nil then
-                    if game.players[surface.name].connected == false then
-                        content.list.add_item(surface.name)
+                if surface.name ~= self.name then
+                    if game.players[surface.name] ~= nil then -- nauvis ou les lobby
+                        if surface.map_used == false then
+                            content.list.add_item(surface.name)
+                        end
                     end
+                end
+            end
+        end
+    elseif action_surface == "tp" then 
+        for _,surface in pairs(surfaces) do 
+            if surface.name ~= nil then
+                if surface.name ~= player.surface then
+                    content.list.add_item(surface.name)
                 end
             end
         end
@@ -138,16 +150,88 @@ function RitnGuiSurfaces:action_valid()
     local itemSelected = self:getElement("list").get_item(index)
     
     if action_surfaces == 'clean' then 
-        --fLobby.clean()
+        self:clean(itemSelected)
+    elseif action_surfaces == 'tp' then 
+        self:teleport(itemSelected)
     elseif action_surfaces == 'exclure' then 
-        --fLobby.exclure(itemSelected)
+        self:exclude(itemSelected)
     end
 
     self:action_close()
+    remote.call("RitnLobbyGame", "gui_action_menu", ritnlib.defines.lobby.gui_actions.menu.close, self.event)
 
     log('> '..self.object_name..':action_valid('..action_surfaces..')')
     return self
 end
+
+
+
+function RitnGuiSurfaces:exclude(player_name)
+    local surfaces = remote.call("RitnCoreGame", "get_surfaces")
+    local surface = surfaces[self.surface.name]
+    if surface ~= nil then 
+        local subscribers = surface.subscribers
+        for index, subscriber in pairs(subscribers) do 
+            if subscriber == player_name then 
+                surface.subscribers[index] = nil
+            end
+        end
+        ----
+        surfaces[self.surface.name] = surface
+        remote.call("RitnCoreGame", "set_surfaces", surfaces)
+        ----
+        local LuaPlayer = game.players[player_name]
+        if LuaPlayer ~= nil then 
+            local lobby_name = ritnlib.defines.core.names.prefix.lobby .. LuaPlayer.name
+            LuaPlayer.teleport({0,0}, lobby_name)
+        end
+        ----
+        self:print(self.name.." (exclude) : "..player_name)
+    end
+    ----
+    return self
+end
+
+
+
+-- Action de téléportation sur une map dans la liste du menu
+function RitnGuiSurfaces:teleport(surface_name)
+    CorePlayer(self.player):teleport({0, 0}, surface_name, true)
+    self:print(self.name .." (tp) : " .. self.surface.name .. " -> " .. surface_name)
+    return self
+end
+
+
+
+-- Action de suppression d'une surface d'un autre joueur dans la liste du menu
+function RitnGuiSurfaces:clean(surface_name)
+    local force_name = surface_name
+    ----
+    -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
+    local players = remote.call("RitnCoreGame", "get_players")
+    for index, player in pairs(players) do 
+        if player.origine == surface_name then 
+            player.origine = ""
+            if player.name == player.origine then 
+                force_name = player.force
+            end
+            local LuaPlayer = game.players[index]
+            if LuaPlayer ~= nil then 
+                local lobby_name = ritnlib.defines.core.names.prefix.lobby .. LuaPlayer.name
+                LuaPlayer.teleport({0,0}, lobby_name)
+            end
+        end
+    end
+    remote.call("RitnCoreGame", "set_players", players)
+    ----
+    game.delete_surface(surface_name)
+    ----
+    if game.forces[force_name] then game.merge_forces(game.forces[force_name], "player") end
+    ----
+    self:print(self.name.." (clean) : "..surface_name)
+    return self
+end
+
 
 
 

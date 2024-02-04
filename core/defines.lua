@@ -1,7 +1,7 @@
 -----------------------------------------
 --               DEFINES               --
 -----------------------------------------
-if not ritnlib then ritnlib = { defines={} } end
+if not ritnlib then  require("__RitnLib__.defines") end
 local name = "RitnLobbyGame"
 local dir = "__".. name .."__"
 local directory = dir .. "."
@@ -31,6 +31,7 @@ defines.class = {
 -- Modules
 defines.modules = {
     core = dir .. ".core.modules",
+    globals = dir .. ".modules.globals",
     events = dir .. ".modules.events",
     commands = dir .. ".modules.commands",
     ----
@@ -88,6 +89,7 @@ defines.gui_actions = {
         toggle = "toggle",
         restart = "button-restart",
         exclure = "button-exclure",
+        tp = "button-tp",
         clean = "button-clean",
     },
     surfaces = {
@@ -189,6 +191,7 @@ defines.names.caption = {
         button_exclure = {"frame-menu.button-exclure"},
         label_admin = {"frame-menu.label-admin"},
         button_clean = {"frame-menu.button-clean"},
+        button_tp = {"frame-menu.button-tp"},
     },
 
     frame_surfaces = {

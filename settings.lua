@@ -18,7 +18,7 @@ data:extend {
 		name = ritnlib.defines.lobby.names.settings.restart,
 		setting_type = "startup",
 		default_value = ritnlib.defines.lobby.value.settings.restart,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-04"
+		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
 	},
 
 
@@ -31,7 +31,7 @@ data:extend {
 		default_value = ritnlib.defines.lobby.value.settings.surfaceMax.default_value,
 		minimum_value = ritnlib.defines.lobby.value.settings.surfaceMax.minimum_value,
 		maximum_value = ritnlib.defines.lobby.value.settings.surfaceMax.maximum_value,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
+		order = ritnlib.defines.lobby.name_prefix .. "lobby-01"
 	},
 	{
 		-- Time-out avant suppression de la map (en heure).
@@ -41,7 +41,7 @@ data:extend {
 		default_value = ritnlib.defines.lobby.value.settings.clean.default_value,
 		minimum_value = ritnlib.defines.lobby.value.settings.clean.minimum_value,
 		maximum_value = ritnlib.defines.lobby.value.settings.clean.maximum_value,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-05"
+		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
 	},
 
 

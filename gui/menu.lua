@@ -19,6 +19,7 @@ local function getElement(gui_name)
             restart = libGuiElement(gui_name,"button","restart"):caption(captions.button_restart):visible(false):get(),
             exclure = libGuiElement(gui_name,"button","exclure"):caption(captions.button_exclure):enabled(false):get(),
             clean = libGuiElement(gui_name,"button","clean"):caption(captions.button_clean):get(),
+            tp = libGuiElement(gui_name,"button","tp"):caption(captions.button_tp):get(),
         },
         line = libGuiElement(gui_name,"line","line"):horizontal():get(),
     }
@@ -72,6 +73,12 @@ local function getContent()
                 "frame-main",
                 "flow-admin",
                 "button-clean"
+            },
+            tp = {
+                "flow-menu",
+                "frame-main",
+                "flow-admin",
+                "button-tp"
             },
         },
     }
