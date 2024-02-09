@@ -126,12 +126,12 @@ defines.gui.restart = dir_gui .. "restart"
 ---------------------------
 
 -- Prefix.
-defines.name_prefix = "ritnmods-"
 defines.prefix = {
     name = "ritnmods-",
     gui = "ritn-",
     enemy = "enemy~",
     lobby = "lobby~",
+    settings_prefix = "ritnmods-lobby-"
 }
 
 -- Name and value
@@ -140,19 +140,18 @@ defines.value = {}
 
 
 defines.names.customInput = {
-    toggle_main_menu = defines.name_prefix .. "toggle-main-menu",
+    toggle_main_menu = defines.prefix.name .. "toggle-main-menu",
 }
 
 
 -- settings
-local settings_prefix = defines.name_prefix .. "lobby-"
 defines.names.settings = {
-    enable_main_button = settings_prefix .. "toggle-main-button",
-    generate_seed = settings_prefix .. "generate-seed",
-    restart = settings_prefix .. "restart",
-    clean = settings_prefix .. "clean",
-    surfaceMax = settings_prefix .. "surface-max",
-    show_research = settings_prefix .. "show-research",
+    enable_main_button = defines.prefix.settings_prefix .. "toggle-main-button",
+    generate_seed = defines.prefix.settings_prefix .. "generate-seed",
+    restart = defines.prefix.settings_prefix .. "restart",
+    clean = defines.prefix.settings_prefix .. "clean",
+    surfaceMax = defines.prefix.settings_prefix .. "surface-max",
+    show_research = defines.prefix.settings_prefix .. "show-research",
 }
 
 defines.value.settings = {

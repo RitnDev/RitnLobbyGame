@@ -12,13 +12,18 @@ local function on_init_mod(event)
     -----------------------------------------------------------
     flib.callRemoteFreeplay("no_finish")
     remote.call("RitnMenuButton", "set_gui_common", gui_common)
+    ---------------------------------
     local options = remote.call("RitnCoreGame", "get_options")
     options.lobby = {
         surfaces_max = settings.global[ritnlib.defines.lobby.names.settings.surfaceMax].value,
         restart = settings.startup[ritnlib.defines.lobby.names.settings.restart].value
     }
     options.requests = {}
+    options.custom_map_settings = {
+        new_seed = not settings.startup[ritnlib.defines.lobby.names.settings.generate_seed].value
+    }
     remote.call("RitnCoreGame", "set_options", options)
+    ---------------------------------
     remote.call("RitnCoreGame", "set_enemy", { active = false })
     remote.call("RitnCoreGame", "init_data", "request", {
         name = "",
@@ -41,6 +46,7 @@ local function on_configuration_changed(event)
     local options = remote.call("RitnCoreGame", "get_options")
     if options.lobby then 
         options.lobby.restart = settings.startup[ritnlib.defines.lobby.names.settings.restart].value
+        options.requests = {}
     else
         options.lobby = {
             surfaces_max = settings.global[ritnlib.defines.lobby.names.settings.surfaceMax].value,
@@ -48,6 +54,9 @@ local function on_configuration_changed(event)
         }
         options.requests = {}
     end
+    options.custom_map_settings = {
+        new_seed = not settings.startup[ritnlib.defines.lobby.names.settings.generate_seed].value
+    }
     remote.call("RitnCoreGame", "set_options", options)
     ---
     log('on_configuration_changed : RitnLobbyGame -> finish !')

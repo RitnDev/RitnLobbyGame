@@ -1,59 +1,55 @@
 --INITIALIZE
+----------------------------------------------------------------------
 require("core.defines")
-
+----------------------------------------------------------------------
+local RitnSetting = require(ritnlib.defines.class.ritnClass.setting)
+----------------------------------------------------------------------
+-- STARTUP SETTINGS
+----------------------------------------------------------------------
+local rSetting = RitnSetting(ritnlib.defines.lobby.names.settings.generate_seed)
+rSetting:setOrder(ritnlib.defines.lobby.prefix.settings_prefix .. "01")
+rSetting:setDefaultValueBool(ritnlib.defines.lobby.value.settings.generate_seed)
+rSetting:new()
+----------------------------------------------------------------------
+local rSetting = RitnSetting(ritnlib.defines.lobby.names.settings.restart)
+rSetting:setOrder(ritnlib.defines.lobby.prefix.settings_prefix .. "02")
+rSetting:setDefaultValueBool(ritnlib.defines.lobby.value.settings.restart)
+rSetting:new()
+----------------------------------------------------------------------
+-- INGAME SETTINGS
+----------------------------------------------------------------------
 data:extend {
-
-	-- STARTUP SETTINGS
-	{
-		-- Même map pour tous ?
-		type = "bool-setting",
-		name = ritnlib.defines.lobby.names.settings.generate_seed,
-		setting_type = "startup",
-		default_value = ritnlib.defines.lobby.value.settings.generate_seed,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-01"
-	},
-	{
-		-- Activation des équipes ennemies
-		type = "bool-setting",
-		name = ritnlib.defines.lobby.names.settings.restart,
-		setting_type = "startup",
-		default_value = ritnlib.defines.lobby.value.settings.restart,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
-	},
-
-
-	-- INGAME SETTINGS	
 	{
 		-- Nombre de map max sur la partie.
 		type = "int-setting",
 		name = ritnlib.defines.lobby.names.settings.surfaceMax,
-		setting_type = "runtime-global",
+		setting_type = RitnSetting.SETTING_TYPE.runtime,
 		default_value = ritnlib.defines.lobby.value.settings.surfaceMax.default_value,
 		minimum_value = ritnlib.defines.lobby.value.settings.surfaceMax.minimum_value,
 		maximum_value = ritnlib.defines.lobby.value.settings.surfaceMax.maximum_value,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-01"
+		order = ritnlib.defines.lobby.prefix.settings_prefix .. "01"
 	},
 	{
 		-- Time-out avant suppression de la map (en heure).
 		type = "int-setting",
 		name = ritnlib.defines.lobby.names.settings.clean,
-		setting_type = "runtime-global",
+		setting_type = RitnSetting.SETTING_TYPE.runtime,
 		default_value = ritnlib.defines.lobby.value.settings.clean.default_value,
 		minimum_value = ritnlib.defines.lobby.value.settings.clean.minimum_value,
 		maximum_value = ritnlib.defines.lobby.value.settings.clean.maximum_value,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
+		order = ritnlib.defines.lobby.prefix.settings_prefix .. "02"
 	},
+}
+----------------------------------------------------------------------
+-- -- BY PLAYER SETTINGS
+----------------------------------------------------------------------
 
 
-	-- BY PLAYER SETTINGS
-	{
-		-- Activation du bouton menu
-		type = "bool-setting",
-		name = ritnlib.defines.lobby.names.settings.enable_main_button,
-		setting_type = "runtime-per-user",
-		default_value = ritnlib.defines.lobby.value.settings.enable_main_button,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-01"
-	},
+----------------------------------------------------------------------
+
+
+
+	--[[ Pour RitnPortal
 	{
 		-- Envoie d'un message lorsqu'une recherche est terminé et que nous sommes pas sur notre surface
 		type = "bool-setting",
@@ -62,23 +58,9 @@ data:extend {
 		default_value = ritnlib.defines.lobby.value.settings.show_research,
 		order = ritnlib.defines.lobby.name_prefix .. "lobby-02"
 	},
-
-
-
-
-
-
-	--[[
-	{
-		-- Activation des téléporteurs
-		type = "bool-setting",
-		name = ritnlib.defines.lobby.names.settings.teleporter_enable,
-		setting_type = "startup",
-		default_value = ritnlib.defines.lobby.value.settings.teleporter_enable,
-		order = ritnlib.defines.lobby.name_prefix .. "lobby-03"
-	},
 	]]
-	--[[
+
+	--[[ Pour RitnEnemy
 	{
 		-- Activation des équipes ennemies
 		type = "bool-setting",
@@ -89,4 +71,3 @@ data:extend {
 	},
 	]]
 
-}
