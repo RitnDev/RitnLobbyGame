@@ -24,7 +24,10 @@ local function on_init_mod(event)
     }
     remote.call("RitnCoreGame", "set_options", options)
     ---------------------------------
-    remote.call("RitnCoreGame", "set_enemy", { active = false })
+    local enemy = remote.call("RitnCoreGame", "get_enemy")
+    enemy.active = false
+    remote.call("RitnCoreGame", "set_enemy", enemy)
+    ---------------------------------
     remote.call("RitnCoreGame", "init_data", "request", {
         name = "",
         state = 1,

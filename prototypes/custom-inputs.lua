@@ -7,5 +7,5 @@ local RitnInputCustom = require(ritnlib.defines.class.prototype.customInput)
 -- Ouverture/Fermeture du menu :
 RitnInputCustom:extend(
     ritnlib.defines.lobby.names.customInput.toggle_main_menu,
-    'CONTROL + SHIFT + W'
+    'CONTROL + ALT + M'
 )
