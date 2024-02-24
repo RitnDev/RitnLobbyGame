@@ -2,7 +2,7 @@ local modules = {}
 ------------------------------------------------------------------------------
 
 -- Inclus les events onInit et onLoad + les ajouts de commandes
-modules.globals =                require(ritnlib.defines.lobby.modules.globals)
+modules.globals =               require(ritnlib.defines.lobby.modules.globals)
 modules.events =                require(ritnlib.defines.lobby.modules.events)
 modules.commands =              require(ritnlib.defines.lobby.modules.commands)
 
@@ -11,6 +11,9 @@ modules.commands =              require(ritnlib.defines.lobby.modules.commands)
 -- modules gui :
 if global.lobby.modules.lobby then
     modules.lobby =             require(ritnlib.defines.lobby.modules.lobby) 
+end
+if global.lobby.modules.inventory then
+    modules.inventory =         require(ritnlib.defines.lobby.modules.inventory) 
 end
 if global.lobby.modules.restart then
     modules.restart =           require(ritnlib.defines.lobby.modules.restart) 

@@ -7,6 +7,7 @@ if global.lobby == nil then
             commands = true,
             restart = true,
             lobby = true,
+            inventory = true,
             request = true,
             menu = true,
         }
@@ -125,6 +126,9 @@ local lobby_interface = {
     end,
     ["disable.module.lobby"] = function()
         global.lobby.modules.lobby = false
+    end,
+    ["disable.module.inventory"] = function()
+        global.lobby.modules.inventory = false
     end,
     ["disable.module.request"] = function()
         global.lobby.modules.request = false

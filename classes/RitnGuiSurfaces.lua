@@ -125,6 +125,8 @@ end
 ----------------------------------------------------------------
 
 function RitnGuiSurfaces:action_close()
+    if self.gui[1] == nil then return self end
+    if self.gui[1][self.gui_name.."-"..self.main_gui] == nil then return self end
     local frame_surfaces = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_surfaces then frame_surfaces.destroy() end
     log('> '..self.object_name..':action_close()')
@@ -168,27 +170,7 @@ end
 
 
 function RitnGuiSurfaces:exclude(player_name)
-    local surfaces = remote.call("RitnCoreGame", "get_surfaces")
-    local surface = surfaces[self.surface.name]
-    if surface ~= nil then 
-        local subscribers = surface.subscribers
-        for index, subscriber in pairs(subscribers) do 
-            if subscriber == player_name then 
-                surface.subscribers[index] = nil
-            end
-        end
-        ----
-        surfaces[self.surface.name] = surface
-        remote.call("RitnCoreGame", "set_surfaces", surfaces)
-        ----
-        local LuaPlayer = game.players[player_name]
-        if LuaPlayer ~= nil then 
-            local lobby_name = ritnlib.defines.core.names.prefix.lobby .. LuaPlayer.name
-            LuaPlayer.teleport({0,0}, lobby_name)
-        end
-        ----
-        self:print(self.name.." (exclude) : "..player_name)
-    end
+    RitnSurface(self.surface):exclude(player_name)
     ----
     return self
 end

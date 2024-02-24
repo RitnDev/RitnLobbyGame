@@ -27,7 +27,8 @@ end)
 
 
 
--- creation de la requete : @applicant = demandeur
+-- Envoie d'une demande à un joueur de venir jouer sur la surface avec lui
+-- @param applicant = demandeur
 function RitnSurface:createRequest(applicant)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     
@@ -59,6 +60,7 @@ end
 
 
 -- Accepter une demande en cours OU supprimer l'effet du rejectAll
+-- @param request_name = joueur à accepter
 function RitnSurface:acceptRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
@@ -111,7 +113,8 @@ function RitnSurface:acceptRequest(request_name)
 end
   
 
--- rejeter une demande en cours
+-- Rejeter une demande en cours
+-- @param request_name = joueur à refuser
 function RitnSurface:rejectRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
@@ -157,7 +160,8 @@ function RitnSurface:rejectRequest(request_name)
 end
 
 
--- Rejeter toute demande de ce joueur
+-- Rejeter toute demande de ce joueur (bloquer)
+-- @param request_name = joueur à bloquer
 function RitnSurface:rejectAllRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
@@ -200,7 +204,7 @@ function RitnSurface:rejectAllRequest(request_name)
 end
   
 
-
+-- On supprime la surface et toutes les données liés dans global
 function RitnSurface:clean()
     local force_name = self.name
     ----
@@ -228,51 +232,24 @@ function RitnSurface:clean()
 end
 
 
-
-
-
-
-
-
 -- @player_name : nom du joueur à exclure
-function RitnSurface:exclure(player_name)
+function RitnSurface:exclude(player_name)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+
+    -- On récupère le RitnPlayer pour le tp sur son lobby après le traitement sur la surface
     local rPlayer = RitnPlayer(game.players[player_name])
     if rPlayer == nil then return end
-
-    -- get player
-    local players = remote.call("RitnCoreGame", "get_players")
-    local player = players[rPlayer.index]
-
-
---[[ 
-    local surface = LuaPlayer.name
-    if global.teleport.surfaces[surface] then
-        for i,player in pairs(global.teleport.surfaces[surface].origine) do 
-            if player == playerExclure then 
-                -- sauvegarde de l'inventaire avant exclusion
-                ritnlib.inventory.save(game.players[playerExclure], global.teleport.surfaces[surface].inventories[playerExclure])
-
-                -- suppression du joueur dans origine de la map
-                table.remove(global.teleport.surfaces[surface].origine, i)
-                global.teleport.players[playerExclure] = nil
-
-                if game.players[playerExclure] 
-                and game.players[playerExclure].valid 
-                and game.players[playerExclure].connected then   
-                    -- fix 2.0.23
-                    if LuaPlayer.driving then 
-                        -- on fait sortir le joueur du vehicule
-                        LuaPlayer.driving = false
-                    end
-                    -- retour lobby
-                    game.players[playerExclure].teleport({0,0}, "lobby~" .. playerExclure)
-                    game.players[playerExclure].clear_items_inside()
-                end
-            end
+    -- On supprime le joueur de la liste des subscribers de la surface
+    local subscribers = self.data[self.name].subscribers
+    for index, subscriber in pairs(subscribers) do 
+        if subscriber == player_name then 
+            self.data[self.name].subscribers[index] = nil
         end
     end
- ]]
-
+    ----
+    self:update()
+    -- On téléporte le player dans son lobby
+    rPlayer:teleportLobby()
 end
 
 

@@ -9,10 +9,16 @@ local function on_gui_click(e)
 end
 
 
+local function on_pre_player_left_game(e) 
+    RitnGuiRestart(e):action_close()
+end
+
+
 ----------------------
 local module = {}
 module.events = {}
 ----------------------
 module.events[defines.events.on_gui_click] = on_gui_click
+module.events[defines.events.on_pre_player_left_game] = on_pre_player_left_game
 ----------------------
 return module

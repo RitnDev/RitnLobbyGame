@@ -45,7 +45,8 @@ local function on_player_demoted(e)
 end
 
 local function on_pre_player_left_game(e) 
-    RitnGuiMenuButton(e):action_close()
+    RitnGuiMenu(e):action_close()
+    RitnGuiSurfaces(e):action_close()
 end
 
 
