@@ -16,7 +16,7 @@ local function on_player_changed_force(e)
     rNewForce:loadInventory(rEvent.player)
 
 
-    if ((rOldForce.name == rEvent.FORCE_DEFAULT) and (rNewForce.name == rEvent.player.name)) then 
+    if ((rOldForce.name == rEvent.FORCE_DEFAULT_NAME) and (rNewForce.name == rEvent.player.name)) then 
         rNewForce:insertInventory(rEvent.player)
     end
 

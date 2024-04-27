@@ -34,7 +34,7 @@ local function on_player_changed_surface(e)
         rSurface:removePlayer(rPlayer.player)
         rPlayer:setActive(false)
         -- mettre le rPlayer dans la force "ritn~default"
-        rPlayer.player.force = rEvent.FORCE_DEFAULT
+        rPlayer.player.force = rEvent.FORCE_DEFAULT_NAME
     end
 
     -- actualise TOUS les GUI lobby des joueurs sur les surfaces lobby
