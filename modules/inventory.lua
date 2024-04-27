@@ -15,6 +15,11 @@ local function on_player_changed_force(e)
     local rNewForce = RitnForce(rEvent.player.force)
     rNewForce:loadInventory(rEvent.player)
 
+
+    if ((rOldForce.name == rEvent.FORCE_DEFAULT) and (rNewForce.name == rEvent.player.name)) then 
+        rNewForce:insertInventory(rEvent.player)
+    end
+
     log('on_player_changed_force')
 end
 

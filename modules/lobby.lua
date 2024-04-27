@@ -28,10 +28,13 @@ local function on_player_changed_surface(e)
     local rPlayer = RitnEvent(e):getPlayer()
     local rSurface = rEvent:getSurface()
 
+    -- si c'est dans son lobby que le joueur arrive
     if string.sub(rPlayer.surface.name, 1, string.len(rEvent.prefix_lobby)) == rEvent.prefix_lobby then
         local rSurface = rEvent:getSurface()
         rSurface:removePlayer(rPlayer.player)
         rPlayer:setActive(false)
+        -- mettre le rPlayer dans la force "ritn~default"
+        rPlayer.player.force = rEvent.FORCE_DEFAULT
     end
 
     -- actualise TOUS les GUI lobby des joueurs sur les surfaces lobby
