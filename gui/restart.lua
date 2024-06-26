@@ -1,4 +1,3 @@
-local libGuiElement = require(ritnlib.defines.class.gui.element)
 local captions = ritnlib.defines.lobby.names.caption.frame_restart
 
 
@@ -6,21 +5,21 @@ local captions = ritnlib.defines.lobby.names.caption.frame_restart
 local function getElement(gui_name)
     return {
         flow = {
-            main = libGuiElement(gui_name,"flow","main"):vertical():get(),
-            dialog = libGuiElement(gui_name,"flow","dialog"):horizontal():get(),
+            main = RitnLibGuiElement(gui_name,"flow","main"):vertical():get(),
+            dialog = RitnLibGuiElement(gui_name,"flow","dialog"):horizontal():get(),
         },
         frame = {
-            restart = libGuiElement(gui_name,"frame","restart"):caption(captions.titre):get(),
+            restart = RitnLibGuiElement(gui_name,"frame","restart"):caption(captions.titre):get(),
         },
         button = {
-            back = libGuiElement(gui_name,"button","back"):caption(captions.button_back):style("red_back_button"):get(),
-            valid = libGuiElement(gui_name,"button","valid"):caption(captions.button_valid):style("confirm_button"):get(),
+            back = RitnLibGuiElement(gui_name,"button","back"):caption(captions.button_back):style("red_back_button"):get(),
+            valid = RitnLibGuiElement(gui_name,"button","valid"):caption(captions.button_valid):style("confirm_button"):get(),
         },
         label = {
-            warning1 = libGuiElement(gui_name,"label","warning1"):caption(captions.label_warning1):get(),
-            warning2 = libGuiElement(gui_name,"label","warning2"):caption(captions.label_warning2):get(),
+            warning1 = RitnLibGuiElement(gui_name,"label","warning1"):caption(captions.label_warning1):get(),
+            warning2 = RitnLibGuiElement(gui_name,"label","warning2"):caption(captions.label_warning2):get(),
         },
-        empty = libGuiElement(gui_name,"empty-widget","empty"):get(),
+        empty = RitnLibGuiElement(gui_name,"empty-widget","empty"):get(),
     }
 end
 

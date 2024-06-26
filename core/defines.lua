@@ -15,18 +15,18 @@ defines.name = name
 -- Path to the mod's directory.
 defines.directory = dir
 
+defines.setup = dir .. '.core.setup-classes'
+
 -- classes
 defines.class = {
     surface = dir .. ".classes.RitnSurface",
     ----
     guiButtonMenu = dir .. ".classes.RitnGuiMenuButton",
     guiLobby = dir .. ".classes.RitnGuiLobby",
-    guiCommon = dir .. ".classes.RitnGuiCommon",
     guiRestart = dir .. ".classes.RitnGuiRestart",
     guiRequest = dir .. ".classes.RitnGuiRequest",
     guiMenu = dir .. ".classes.RitnGuiMenu",
     guiSurfaces = dir .. ".classes.RitnGuiSurfaces",
-    guiRestart = dir .. ".classes.RitnGuiRestart"
 }
 
 

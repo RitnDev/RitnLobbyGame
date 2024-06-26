@@ -1,20 +1,14 @@
--- RitnGuiMenu
+-- RitnLobbyGuiMenu
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
 local modGui = require("mod-gui")
-local libStyle = require(ritnlib.defines.class.gui.style)
-local libGui = require(ritnlib.defines.class.luaClass.gui)
-----------------------------------------------------------------
-local RitnGuiSurfaces = require(ritnlib.defines.lobby.class.guiSurfaces)
-local RitnGuiRestart = require(ritnlib.defines.lobby.class.guiRestart)
 ----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.menu)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnGuiMenu = class.newclass(libGui, function(base, event)
-    libGui.init(base, event, ritnlib.defines.lobby.name, "flow-menu")
-    base.object_name = "RitnGuiMenu"
+RitnLobbyGuiMenu = ritnlib.classFactory.newclass(RitnLibGui, function(base, event)
+    RitnLibGui.init(base, event, ritnlib.defines.lobby.name, "flow-menu")
+    base.object_name = "RitnLobbyGuiMenu"
     --------------------------------------------------
     base.gui_name = "menu"
     base.gui_action = {
@@ -38,7 +32,7 @@ end)
 
 
 -- create GUI
-function RitnGuiMenu:create()
+function RitnLobbyGuiMenu:create()
     if self.gui[1][self.gui_name.."-"..self.main_gui] then return self end
 
     local element = fGui.getElement(self.gui_name, self.name)
@@ -73,9 +67,9 @@ function RitnGuiMenu:create()
     content.button.clean =      content.flow.admin.add(element.button.clean)
     
     
-    libStyle(content.frame.main):frame():maxWidth(125)
-    libStyle(content.flow.admin):align()
-    libStyle(content.label.admin):label()
+    RitnLibStyle(content.frame.main):frame():maxWidth(125)
+    RitnLibStyle(content.flow.admin):align()
+    RitnLibStyle(content.label.admin):label()
 
     -- active flow admin
     content.flow.admin.visible = self.admin
@@ -132,7 +126,7 @@ end
 ----------------------------------------------------------------
 
 -- Fermeture du menu
-function RitnGuiMenu:action_close()
+function RitnLobbyGuiMenu:action_close()
     local frame_menu = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_menu then frame_menu.destroy() end
     log('> '..self.object_name..':action_close()')
@@ -140,7 +134,7 @@ function RitnGuiMenu:action_close()
 end
 
 -- Ouverture du menu
-function RitnGuiMenu:action_open()
+function RitnLobbyGuiMenu:action_open()
     self:action_close()
 
     self:create()
@@ -149,7 +143,7 @@ function RitnGuiMenu:action_open()
 end
 
 -- inverser l'action sur le bouton menu (fermer le menu s'il est ouvert et inversement)
-function RitnGuiMenu:action_toggle_menu()
+function RitnLobbyGuiMenu:action_toggle_menu()
     local frame_menu = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_menu then 
         self:action_close()
@@ -161,33 +155,33 @@ function RitnGuiMenu:action_toggle_menu()
 end
 
 -- Action d'appuie sur le bouton restart
-function RitnGuiMenu:action_restart()
-    RitnGuiRestart(self.event):action_open()
+function RitnLobbyGuiMenu:action_restart()
+    RitnLobbyGuiRestart(self.event):action_open()
     log('> '..self.object_name..':action_restart()')
     return self
 end
 
 -- Ouverture du GUI RitnGuiSurface pour exclure un joueur de sa carte
-function RitnGuiMenu:action_exclure()
-    RitnGuiSurfaces(self.event):action_open("exclure")
+function RitnLobbyGuiMenu:action_exclure()
+    RitnLobbyGuiSurface(self.event):action_open("exclure")
     log('> '..self.object_name..':action_exclure()')
     return self
 end
 
 -- [ADMIN] Ouverture du GUI RitnGuiSurface pour supprimer la map d'un autre joueur
-function RitnGuiMenu:action_clean()
-    RitnGuiSurfaces(self.event):action_open("clean")
+function RitnLobbyGuiMenu:action_clean()
+    RitnLobbyGuiSurface(self.event):action_open("clean")
     log('> '..self.object_name..':action_clean()')
     return self
 end
 
 -- [ADMIN] Ouverture du GUI RitnGuiSurface pour ce téléporter sur la map d'un autre joueur
-function RitnGuiMenu:action_tp()
-    RitnGuiSurfaces(self.event):action_open("tp")
+function RitnLobbyGuiMenu:action_tp()
+    RitnLobbyGuiSurface(self.event):action_open("tp")
     log('> '..self.object_name..':action_tp()')
     return self
 end
 
 
 ----------------------------------------------------------------
-return RitnGuiMenu
+--return RitnLobbyGuiMenu

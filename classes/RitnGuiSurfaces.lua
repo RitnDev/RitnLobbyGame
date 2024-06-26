@@ -1,24 +1,18 @@
--- RitnGuiSurfaces
+-- RitnLobbyGuiSurface
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
 local modGui = require("mod-gui")
-local libStyle = require(ritnlib.defines.class.gui.style)
-local libGui = require(ritnlib.defines.class.luaClass.gui)
-----------------------------------------------------------------
-local CorePlayer = require(ritnlib.defines.core.class.player)
-local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 ----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.surfaces)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnGuiSurfaces = class.newclass(libGui, function(base, event)
-    libGui.init(base, event, ritnlib.defines.lobby.name, "frame-surfaces")
-    base.object_name = "RitnGuiSurfaces"
+RitnLobbyGuiSurface = ritnlib.classFactory.newclass(RitnLibGui, function(self, event)
+    RitnLibGui.init(self, event, ritnlib.defines.lobby.name, "frame-surfaces")
+    self.object_name = "RitnLobbyGuiSurface"
     --------------------------------------------------
-    base.gui_name = "surfaces"
-    base.gui_action = {
-        [base.gui_name] = {
+    self.gui_name = "surfaces"
+    self.gui_action = {
+        [self.gui_name] = {
             [ritnlib.defines.lobby.gui_actions.surfaces.open] = true,
             [ritnlib.defines.lobby.gui_actions.surfaces.close] = true,
             [ritnlib.defines.lobby.gui_actions.surfaces.valid] = true,
@@ -26,10 +20,10 @@ local RitnGuiSurfaces = class.newclass(libGui, function(base, event)
         }
     }
     --------------------------------------------------
-    local left = modGui.get_frame_flow(base.player)
-    base.gui = { left["common-flow-main"]["common-flow-menu"]["menu-flow-menu"] }
+    local left = modGui.get_frame_flow(self.player)
+    self.gui = { left["common-flow-main"]["common-flow-menu"]["menu-flow-menu"] }
     --------------------------------------------------
-    base.content = fGui.getContent()
+    self.content = fGui.getContent()
     --------------------------------------------------
 end)
 
@@ -37,7 +31,7 @@ end)
 
 
 -- create GUI
-function RitnGuiSurfaces:create(action_surface)
+function RitnLobbyGuiSurface:create(action_surface)
     if self.gui[1][self.gui_name.."-"..self.main_gui] then return self end
 
     local element = fGui.getElement(self.gui_name)
@@ -68,12 +62,12 @@ function RitnGuiSurfaces:create(action_surface)
     content.button.valid =      content.flow.dialog.add(element.button.valid)
     
 
-    libStyle(content.frame.surfaces):frame()
-    libStyle(content.flow.surfaces):noPadding():stretchable().vertical_spacing = 8
-    libStyle(content.pane):horizontalStretch():minHeight(220)
-    libStyle(content.flow.dialog):stretchable():topPadding(4)
-    libStyle(content.button.close):smallButton()
-    libStyle(content.button.valid):smallButton()
+    RitnLibStyle(content.frame.surfaces):frame()
+    RitnLibStyle(content.flow.surfaces):noPadding():stretchable().vertical_spacing = 8
+    RitnLibStyle(content.pane):horizontalStretch():minHeight(220)
+    RitnLibStyle(content.flow.dialog):stretchable():topPadding(4)
+    RitnLibStyle(content.button.close):smallButton()
+    RitnLibStyle(content.button.valid):smallButton()
 
     -- get caption
     if action_surface ~= "exclure" then
@@ -124,7 +118,7 @@ end
 -- ACTIONS --
 ----------------------------------------------------------------
 
-function RitnGuiSurfaces:action_close()
+function RitnLobbyGuiSurface:action_close()
     if self.gui[1] == nil then return self end
     if self.gui[1][self.gui_name.."-"..self.main_gui] == nil then return self end
     local frame_surfaces = self.gui[1][self.gui_name.."-"..self.main_gui]
@@ -134,7 +128,7 @@ function RitnGuiSurfaces:action_close()
 end
 
 
-function RitnGuiSurfaces:action_open(action_surface)
+function RitnLobbyGuiSurface:action_open(action_surface)
     self:action_close()
     self:create(action_surface)
     log('> '..self.object_name..':action_open()')
@@ -142,7 +136,7 @@ function RitnGuiSurfaces:action_open(action_surface)
 end
 
 
-function RitnGuiSurfaces:action_valid()
+function RitnLobbyGuiSurface:action_valid()
     local action_surfaces
     if self.element.parent[self.gui_name.."-label-info"] ~= nil then
         action_surfaces = self.element.parent[self.gui_name.."-label-info"].caption
@@ -169,8 +163,8 @@ end
 
 
 
-function RitnGuiSurfaces:exclude(player_name)
-    RitnSurface(self.surface):exclude(player_name)
+function RitnLobbyGuiSurface:exclude(player_name)
+    RitnLobbySurface(self.surface):exclude(player_name)
     ----
     return self
 end
@@ -178,8 +172,8 @@ end
 
 
 -- Action de téléportation sur une map dans la liste du menu
-function RitnGuiSurfaces:teleport(surface_name)
-    CorePlayer(self.player):teleport({0, 0}, surface_name, true)
+function RitnLobbyGuiSurface:teleport(surface_name)
+    RitnCorePlayer(self.player):teleport({0, 0}, surface_name, true)
     self:print(self.name .." (tp) : " .. self.surface.name .. " -> " .. surface_name)
     return self
 end
@@ -187,8 +181,8 @@ end
 
 
 -- Action de suppression d'une surface d'un autre joueur dans la liste du menu
-function RitnGuiSurfaces:clean(surface_name)
-    local rSurface = RitnSurface(game.surfaces[surface_name])
+function RitnLobbyGuiSurface:clean(surface_name)
+    local rSurface = RitnLobbySurface(game.surfaces[surface_name])
     if rSurface then 
         rSurface:clean()
     end
@@ -201,4 +195,4 @@ end
 
 
 ----------------------------------------------------------------
-return RitnGuiSurfaces
+--return RitnLobbyGuiSurface

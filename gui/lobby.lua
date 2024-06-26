@@ -1,4 +1,3 @@
-local libGuiElement = require(ritnlib.defines.class.gui.element)
 local captions = ritnlib.defines.lobby.names.caption.frame_lobby
 local font = ritnlib.defines.names.font
 
@@ -15,30 +14,30 @@ local function getElement(gui_name, player_name)
 
     return {
         flow = {
-            common = libGuiElement(gui_name,"flow","common"):horizontal():get(),
-            main = libGuiElement(gui_name,"flow","main"):vertical():get(),
-            surfaces = libGuiElement(gui_name,"flow","surfaces"):vertical():get(),
-            dialog = libGuiElement(gui_name,"flow","dialog"):horizontal():get(),
+            common = RitnLibGuiElement(gui_name,"flow","common"):horizontal():get(),
+            main = RitnLibGuiElement(gui_name,"flow","main"):vertical():get(),
+            surfaces = RitnLibGuiElement(gui_name,"flow","surfaces"):vertical():get(),
+            dialog = RitnLibGuiElement(gui_name,"flow","dialog"):horizontal():get(),
         },
         frame = {
-            lobby = libGuiElement(gui_name,"frame","lobby"):vertical():caption(captions.titre):get(),
+            lobby = RitnLibGuiElement(gui_name,"frame","lobby"):vertical():caption(captions.titre):get(),
         },
         label = {
-            welcome = libGuiElement(gui_name,"label","welcome"):caption({"frame-lobby.label-welcome", player_name}):get(),
-            mainSurface = libGuiElement(gui_name,"label","main_surfaces"):caption(captions.label_main_surfaces):get(),
-            nbSurfaces = libGuiElement(gui_name,"label","nb_surfaces"):caption({"frame-lobby.label-nb-surface", nb_maps, surfaces_max}):get(),
+            welcome = RitnLibGuiElement(gui_name,"label","welcome"):caption({"frame-lobby.label-welcome", player_name}):get(),
+            mainSurface = RitnLibGuiElement(gui_name,"label","main_surfaces"):caption(captions.label_main_surfaces):get(),
+            nbSurfaces = RitnLibGuiElement(gui_name,"label","nb_surfaces"):caption({"frame-lobby.label-nb-surface", nb_maps, surfaces_max}):get(),
         },
         button = {
-            create = libGuiElement(gui_name,"button","create"):caption(captions.button_create):get(),
-            request = libGuiElement(gui_name,"button","request"):caption(captions.button_request):style("confirm_button"):tooltip({"tooltip.button-valid"}):get(),
+            create = RitnLibGuiElement(gui_name,"button","create"):caption(captions.button_create):get(),
+            request = RitnLibGuiElement(gui_name,"button","request"):caption(captions.button_request):style("confirm_button"):tooltip({"tooltip.button-valid"}):get(),
         },
         line = {
-            [1] = libGuiElement(gui_name,"line","line1"):horizontal():get(),
-            [2] = libGuiElement(gui_name,"line","line2"):horizontal():get(),
+            [1] = RitnLibGuiElement(gui_name,"line","line1"):horizontal():get(),
+            [2] = RitnLibGuiElement(gui_name,"line","line2"):horizontal():get(),
         },
-        pane = libGuiElement(gui_name,"scroll-pane","pane"):get(),
-        list = libGuiElement(gui_name,"list-box","surfaces"):get(),
-        empty = libGuiElement(gui_name,"empty-widget","empty"):get(),
+        pane = RitnLibGuiElement(gui_name,"scroll-pane","pane"):get(),
+        list = RitnLibGuiElement(gui_name,"list-box","surfaces"):get(),
+        empty = RitnLibGuiElement(gui_name,"empty-widget","empty"):get(),
     }
 end
 

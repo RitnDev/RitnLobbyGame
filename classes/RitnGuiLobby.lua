@@ -1,21 +1,13 @@
--- RitnGuiLobby
-----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
-local libStyle = require(ritnlib.defines.class.gui.style)
-local libGui = require(ritnlib.defines.class.luaClass.gui)
-----------------------------------------------------------------
-local RitnPlayer = require(ritnlib.defines.core.class.player)
-local RitnSurface = require(ritnlib.defines.lobby.class.surface)
-local RitnGuiMenuButton = require(ritnlib.defines.lobby.class.guiButtonMenu)
+-- RitnLobbyGuiLobby
 ----------------------------------------------------------------
 local font = ritnlib.defines.names.font
 local fGui = require(ritnlib.defines.lobby.gui.lobby)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnGuiLobby = class.newclass(libGui, function(base, event)
-    libGui.init(base, event, ritnlib.defines.lobby.name, "flow-common")
-    base.object_name = "RitnGuiLobby"
+RitnLobbyGuiLobby = ritnlib.classFactory.newclass(RitnLibGui, function(base, event)
+    RitnLibGui.init(base, event, ritnlib.defines.lobby.name, "flow-common")
+    base.object_name = "RitnLobbyGuiLobby"
     --------------------------------------------------
     base.gui_name = "lobby"
     base.gui_action = {
@@ -44,7 +36,7 @@ end)
 ----------------------------------------------------------------
 
 
-function RitnGuiLobby:create()
+function RitnLobbyGuiLobby:create()
     if self.gui[1][self.gui_name.."-"..self.main_gui] then return self end
 
     local element = fGui.getElement(self.gui_name, self.name)
@@ -92,18 +84,18 @@ function RitnGuiLobby:create()
 
 
     -- styles guiElement
-    libStyle(content.frame.lobby):frame():maxHeight(450):maxWidth(260)
-    libStyle(content.flow.main):align():stretchable()
-    libStyle(content.label.welcome):label()
-    libStyle(content.button.create):menuButton():font(font.bold18)
-    libStyle(content.flow.surfaces):align("left")
-    libStyle(content.label.mainSurface):label():font(font.bold14)
-    libStyle(content.pane):scrollpane()
-    libStyle(content.list):listbox()
-    libStyle(content.flow.dialog):stretchable():topPadding(4):align("left")
-    libStyle(content.label.nbSurfaces):label()
-    libStyle(content.empty):size(30, 30)
-    libStyle(content.button.request):maxWidth(120)
+    RitnLibStyle(content.frame.lobby):frame():maxHeight(450):maxWidth(260)
+    RitnLibStyle(content.flow.main):align():stretchable()
+    RitnLibStyle(content.label.welcome):label()
+    RitnLibStyle(content.button.create):menuButton():font(font.bold18)
+    RitnLibStyle(content.flow.surfaces):align("left")
+    RitnLibStyle(content.label.mainSurface):label():font(font.bold14)
+    RitnLibStyle(content.pane):scrollpane()
+    RitnLibStyle(content.list):listbox()
+    RitnLibStyle(content.flow.dialog):stretchable():topPadding(4):align("left")
+    RitnLibStyle(content.label.nbSurfaces):label()
+    RitnLibStyle(content.empty):size(30, 30)
+    RitnLibStyle(content.button.request):maxWidth(120)
 
 
     local surfaces = remote.call('RitnCoreGame', 'get_surfaces')
@@ -130,14 +122,14 @@ end
 -- ACTIONS --
 ----------------------------------------------------------------
 
-function RitnGuiLobby:action_close()
+function RitnLobbyGuiLobby:action_close()
     local frame_lobby = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_lobby then frame_lobby.destroy() end
     log('> '..self.object_name..':action_close()')
     return self
 end
 
-function RitnGuiLobby:action_open()
+function RitnLobbyGuiLobby:action_open()
     self:action_close()
     self:create()
     log('> '..self.object_name..':action_open()')
@@ -146,27 +138,27 @@ end
 
 
 
-function RitnGuiLobby:action_create()
+function RitnLobbyGuiLobby:action_create()
     if self.nb_maps == self.surfaces_max then 
         self.player.print({"msg.server-full"})
         return self 
     end
     -- Creation de la surface joueur
-    RitnPlayer(self.player):createSurface()
-    RitnGuiMenuButton(self.event):action_open()
+    RitnCorePlayer(self.player):createSurface()
+    RitnLobbyGuiMenuButton(self.event):action_open()
     
     log('> '..self.object_name..':action_create('.. self.player.name ..')')
     return self
 end
 
 
-function RitnGuiLobby:action_request()
+function RitnLobbyGuiLobby:action_request()
     local index = self:getElement("list").selected_index
     if index == nil or index == 0 then return self end
     local surface = self:getElement("list").get_item(index)
     log('> '..self.object_name..':action_request() : '..self.name..' -> ' .. surface)
     
-    RitnSurface(game.surfaces[surface]):createRequest(self.name)
+    RitnLobbySurface(game.surfaces[surface]):createRequest(self.name)
 
     return self
 end
@@ -174,4 +166,4 @@ end
 
 
 ----------------------------------------------------------------
-return RitnGuiLobby
+--return RitnLobbyGuiLobby

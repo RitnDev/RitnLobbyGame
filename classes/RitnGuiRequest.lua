@@ -1,10 +1,6 @@
--- RitnGuiRequest
+-- RitnLobbyGuiRequest
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
 local modGui = require("mod-gui")
-local libStyle = require(ritnlib.defines.class.gui.style)
-local libGui = require(ritnlib.defines.class.luaClass.gui)
-local RitnSurface = require(ritnlib.defines.lobby.class.surface)
 ----------------------------------------------------------------
 local font = ritnlib.defines.names.font
 local fGui = require(ritnlib.defines.lobby.gui.request)
@@ -16,9 +12,9 @@ local fGui = require(ritnlib.defines.lobby.gui.request)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnGuiRequest = class.newclass(libGui, function(base, event, request_name)
-    libGui.init(base, event, ritnlib.defines.lobby.name, "frame-main_"..request_name)
-    base.object_name = "RitnGuiRequest"
+RitnLobbyGuiRequest = ritnlib.classFactory.newclass(RitnLibGui, function(base, event, request_name)
+    RitnLibGui.init(base, event, ritnlib.defines.lobby.name, "frame-main_"..request_name)
+    base.object_name = "RitnLobbyGuiRequest"
     --------------------------------------------------
     base.gui_name = "request"
     base.gui_action = {
@@ -41,7 +37,7 @@ end)
 
 ----------------------------------------------------------------
 
-function RitnGuiRequest:setRequestName(request_name)
+function RitnLobbyGuiRequest:setRequestName(request_name)
     if type(request_name) ~= "string" then return self end
 
     self.request_name = request_name
@@ -54,7 +50,7 @@ end
 
 
 
-function RitnGuiRequest:create()
+function RitnLobbyGuiRequest:create()
     if self.gui[1][self.gui_name.."-"..self.main_gui] then return self end
 
     local element = fGui.getElement(self.gui_name, self.request_name)
@@ -90,13 +86,13 @@ function RitnGuiRequest:create()
 
 
     -- styles guiElement
-    libStyle(content.flow.label):align()
-    libStyle(content.flow.dialog):stretchable():topPadding(4)
-    libStyle(content.button.reject):smallButton()
-    libStyle(content.empty[1]):width(2)
-    libStyle(content.button.rejectAll):size(90, 30):font(font.default12)
-    libStyle(content.empty[2]):width(95)
-    libStyle(content.button.accept):smallButton()
+    RitnLibStyle(content.flow.label):align()
+    RitnLibStyle(content.flow.dialog):stretchable():topPadding(4)
+    RitnLibStyle(content.button.reject):smallButton()
+    RitnLibStyle(content.empty[1]):width(2)
+    RitnLibStyle(content.button.rejectAll):size(90, 30):font(font.default12)
+    RitnLibStyle(content.empty[2]):width(95)
+    RitnLibStyle(content.button.accept):smallButton()
 
     return self
 end
@@ -104,7 +100,7 @@ end
 ----------------------------------------------------------------
 
 
-function RitnGuiRequest:on_gui_click_request()
+function RitnLobbyGuiRequest:on_gui_click_request()
     log('> '..self.object_name..':on_gui_click_request('..self.request_name..')')
     self:on_gui_click(self.request_name)
 end
@@ -114,14 +110,14 @@ end
 -- ACTIONS --
 ----------------------------------------------------------------
 
-function RitnGuiRequest:action_close()
+function RitnLobbyGuiRequest:action_close()
     local frame_request = self.gui[1][self.gui_name.."-"..self.main_gui]
     if frame_request then frame_request.destroy() end
     log('> '..self.object_name..':action_close()')
     return self
 end
 
-function RitnGuiRequest:action_open()
+function RitnLobbyGuiRequest:action_open()
     self:action_close()
     self:create()
     log('> '..self.object_name..':action_open()')
@@ -130,30 +126,30 @@ end
 
 
 -- Bouton accept
-function RitnGuiRequest:action_accept()
+function RitnLobbyGuiRequest:action_accept()
     log('> '..self.object_name..':action_accept()')
-    RitnSurface(game.surfaces[self.name]):acceptRequest(self.request_name)
+    RitnLobbySurface(game.surfaces[self.name]):acceptRequest(self.request_name)
     self:action_close()
     return self
 end
 
 
 -- Bouton reject
-function RitnGuiRequest:button_reject()
+function RitnLobbyGuiRequest:button_reject()
     log('> '..self.object_name..':button_reject()')
-    RitnSurface(game.surfaces[self.name]):rejectRequest(self.request_name)
+    RitnLobbySurface(game.surfaces[self.name]):rejectRequest(self.request_name)
     self:action_close()
     return self
 end
 
 -- Bouton rejeter toute nouvelle demande
-function RitnGuiRequest:action_rejectAll()
+function RitnLobbyGuiRequest:action_rejectAll()
     log('> '..self.object_name..':action_rejectAll()')
-    RitnSurface(game.surfaces[self.name]):rejectAllRequest(self.request_name)
+    RitnLobbySurface(game.surfaces[self.name]):rejectAllRequest(self.request_name)
     self:action_close()
     return self
 end
 
 
 ----------------------------------------------------------------
-return RitnGuiRequest
+--return RitnLobbyGuiRequest

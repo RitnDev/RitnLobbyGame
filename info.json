@@ -7,7 +7,7 @@
   "factorio_version": "1.1",
   "dependencies":[
     "base >= 1.1",
-    "RitnMenuButton >= 0.1",
-    "RitnBaseGame >= 0.3"
+    "RitnMenuButton >= 1.1",
+    "RitnBaseGame >= 0.5"
   ]
 }

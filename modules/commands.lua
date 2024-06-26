@@ -1,9 +1,5 @@
 -- MODULE : COMMANDS
 ---------------------------------------------------------------------------------
-local RitnSurface = require(ritnlib.defines.lobby.class.surface)
-local RitnGuiRequest = require(ritnlib.defines.lobby.class.guiRequest)
----------------------------------------------------------------------------------
-
 
 
 -- Débloquer les requêtes d'un joueur ou l'accepter
@@ -25,8 +21,8 @@ commands.add_command("accept", "/accept <player>",
                             local surface = surfaces[player.origine]
 
                             if surface.requests[player_request.name] then 
-                                RitnSurface(game.surfaces[surface.name]):acceptRequest(player_request.name)
-                                RitnGuiRequest({player_index = LuaPlayer.index}, player_request.name):action_close()
+                                RitnLobbySurface(game.surfaces[surface.name]):acceptRequest(player_request.name)
+                                RitnLobbyGuiRequest({player_index = LuaPlayer.index}, player_request.name):action_close()
                             end
                         end
                     end

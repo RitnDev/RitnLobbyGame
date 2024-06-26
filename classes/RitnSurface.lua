@@ -1,26 +1,14 @@
--- RitnSurface
-----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
-local RitnCoreSurface = require(ritnlib.defines.core.class.surface)
-----------------------------------------------------------------
-local RitnPlayer = require(ritnlib.defines.core.class.player)
-----------------------------------------------------------------
-
-
-
+-- RitnLobbySurface
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnSurface = class.newclass(RitnCoreSurface, function(base, LuaSurface)
-    if LuaSurface == nil then return end
-    if LuaSurface.valid == false then return end
-    if LuaSurface.object_name ~= "LuaSurface" then return end
-    RitnCoreSurface.init(base, LuaSurface)
-    log('> '..base.object_name..':init() -> RitnLobbyGame')
+RitnLobbySurface = ritnlib.classFactory.newclass(RitnCoreSurface, function(self, LuaSurface)
+    RitnCoreSurface.init(self, LuaSurface)
+    log('> '..self.object_name..':init() -> RitnLobbyGame')
     --------------------------------------------------
-    base.data_request = remote.call("RitnCoreGame", "get_data", "request")
+    self.data_request = remote.call("RitnCoreGame", "get_data", "request")
     --------------------------------------------------
-    log('> [RitnLobbyGame] > RitnSurface')
+    log('> [RitnLobbyGame] > RitnLobbySurface')
 end)
 
 ----------------------------------------------------------------
@@ -29,12 +17,12 @@ end)
 
 -- Envoie d'une demande à un joueur de venir jouer sur la surface avec lui
 -- @param applicant = demandeur
-function RitnSurface:createRequest(applicant)
+function RitnLobbySurface:createRequest(applicant)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     
     if not self.data[self.name].requests[applicant] then 
         log('> '..self.object_name..':createRequest('..applicant..') -> for : '..self.name)
-        local rPlayer = RitnPlayer(game.players[applicant])
+        local rPlayer = RitnCorePlayer(game.players[applicant])
 
         self.data[self.name].requests[applicant] = self.data_request
         self.data[self.name].requests[applicant].name = applicant
@@ -61,7 +49,7 @@ end
 
 -- Accepter une demande en cours OU supprimer l'effet du rejectAll
 -- @param request_name = joueur à accepter
-function RitnSurface:acceptRequest(request_name)
+function RitnLobbySurface:acceptRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
     log('> '..self.object_name..':acceptRequest('..request_name..') -> accept by : '..self.name)
@@ -83,7 +71,7 @@ function RitnSurface:acceptRequest(request_name)
                     table.insert(self.data[self.name].subscribers, request_name)
 
                     -- Enregistrement de la surface d'origine 
-                    local rPlayer = RitnPlayer(game.players[request_name])                   
+                    local rPlayer = RitnCorePlayer(game.players[request_name])                   
                     rPlayer:setOrigine(self.name)
 
                     -- Teleportation sur la surface du personnage.
@@ -115,7 +103,7 @@ end
 
 -- Rejeter une demande en cours
 -- @param request_name = joueur à refuser
-function RitnSurface:rejectRequest(request_name)
+function RitnLobbySurface:rejectRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
     log('> '..self.object_name..':rejectRequest('..request_name..') -> reject by : '..self.name)
@@ -162,7 +150,7 @@ end
 
 -- Rejeter toute demande de ce joueur (bloquer)
 -- @param request_name = joueur à bloquer
-function RitnSurface:rejectAllRequest(request_name)
+function RitnLobbySurface:rejectAllRequest(request_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
     log('> '..self.object_name..':rejectAllRequest('..request_name..') -> reject by : '..self.name)
@@ -205,7 +193,7 @@ end
   
 
 -- On supprime la surface et toutes les données liés dans global
-function RitnSurface:clean()
+function RitnLobbySurface:clean()
     local force_name = self.name
     ----
     -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
@@ -233,11 +221,11 @@ end
 
 
 -- @player_name : nom du joueur à exclure
-function RitnSurface:exclude(player_name)
+function RitnLobbySurface:exclude(player_name)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
 
-    -- On récupère le RitnPlayer pour le tp sur son lobby après le traitement sur la surface
-    local rPlayer = RitnPlayer(game.players[player_name])
+    -- On récupère le RitnCorePlayer pour le tp sur son lobby après le traitement sur la surface
+    local rPlayer = RitnCorePlayer(game.players[player_name])
     if rPlayer == nil then return end
     -- On supprime le joueur de la liste des subscribers de la surface
     local subscribers = self.data[self.name].subscribers
@@ -255,4 +243,4 @@ end
 
 
 ----------------------------------------------------------------
-return RitnSurface
+--return RitnLobbySurface

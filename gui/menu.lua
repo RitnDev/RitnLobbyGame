@@ -1,27 +1,26 @@
-local libGuiElement = require(ritnlib.defines.class.gui.element)
 local captions = ritnlib.defines.lobby.names.caption.frame_menu
 
 
 local function getElement(gui_name)
     return {
         flow = {
-            menu = libGuiElement(gui_name,"flow","menu"):horizontal():get(),
-            restart = libGuiElement(gui_name,"flow","restart"):vertical():get(),
-            admin = libGuiElement(gui_name,"flow","admin"):vertical():get(),
+            menu = RitnLibGuiElement(gui_name,"flow","menu"):horizontal():get(),
+            restart = RitnLibGuiElement(gui_name,"flow","restart"):vertical():get(),
+            admin = RitnLibGuiElement(gui_name,"flow","admin"):vertical():get(),
         },
         frame = {
-            main = libGuiElement(gui_name,"frame","main"):vertical():caption(captions.titre):get(),
+            main = RitnLibGuiElement(gui_name,"frame","main"):vertical():caption(captions.titre):get(),
         },
         label = {
-            admin = libGuiElement(gui_name,"label","admin"):caption(captions.label_admin):get(),
+            admin = RitnLibGuiElement(gui_name,"label","admin"):caption(captions.label_admin):get(),
         },
         button = {
-            restart = libGuiElement(gui_name,"button","restart"):caption(captions.button_restart):style("red_button"):visible(false):get(),
-            exclure = libGuiElement(gui_name,"button","exclure"):caption(captions.button_exclure):enabled(false):get(),
-            clean = libGuiElement(gui_name,"button","clean"):caption(captions.button_clean):get(),
-            tp = libGuiElement(gui_name,"button","tp"):caption(captions.button_tp):get(),
+            restart = RitnLibGuiElement(gui_name,"button","restart"):caption(captions.button_restart):style("red_button"):visible(false):get(),
+            exclure = RitnLibGuiElement(gui_name,"button","exclure"):caption(captions.button_exclure):enabled(false):get(),
+            clean = RitnLibGuiElement(gui_name,"button","clean"):caption(captions.button_clean):get(),
+            tp = RitnLibGuiElement(gui_name,"button","tp"):caption(captions.button_tp):get(),
         },
-        line = libGuiElement(gui_name,"line","line"):horizontal():get(),
+        line = RitnLibGuiElement(gui_name,"line","line"):horizontal():get(),
     }
 end
 
