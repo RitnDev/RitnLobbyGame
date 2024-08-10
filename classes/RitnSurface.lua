@@ -199,24 +199,28 @@ function RitnLobbySurface:clean()
     -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
     local players = remote.call("RitnCoreGame", "get_players")
     for index, player in pairs(players) do 
-        if player.origine == self.name then 
-            player.origine = ""
-            if player.name == player.origine then 
-                force_name = player.force
+
+        local rPlayer = RitnCorePlayer(game.players[player.name])
+
+        -- si la surface à le meme nom que l'origine du joueur
+        if rPlayer.data[rPlayer.index].origine == self.name then
+            -- si le joueur à le meme nom que l'origine alors c'est le propriétaire de la surface
+            if rPlayer:isOwner() then 
+                -- on récupère le nom de la force de ce joueur
+                force_name = rPlayer.force.name
             end
-            local LuaPlayer = game.players[index]
-            if LuaPlayer ~= nil then 
-                local lobby_name = ritnlib.defines.core.names.prefix.lobby .. LuaPlayer.name
-                LuaPlayer.teleport({0,0}, lobby_name)
-            end
+            -- reset de l'origine
+            rPlayer:setOrigine("")
+            rPlayer:teleportLobby()
         end
     end
-    remote.call("RitnCoreGame", "set_players", players)
     ----
     game.delete_surface(self.name)
     self:delete()
     ----
-    if game.forces[force_name] then game.merge_forces(game.forces[force_name], "player") end
+    if game.forces[force_name] then 
+        game.merge_forces(game.forces[force_name], ritnlib.defines.core.names.force_default) 
+    end
 end
 
 

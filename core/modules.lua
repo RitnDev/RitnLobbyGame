@@ -12,9 +12,6 @@ modules.commands =              require(ritnlib.defines.lobby.modules.commands)
 if global.lobby.modules.lobby then
     modules.lobby =             require(ritnlib.defines.lobby.modules.lobby) 
 end
-if global.lobby.modules.inventory then
-    modules.inventory =         require(ritnlib.defines.lobby.modules.inventory) 
-end
 if global.lobby.modules.restart then
     modules.restart =           require(ritnlib.defines.lobby.modules.restart) 
 end

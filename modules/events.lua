@@ -35,8 +35,8 @@ local function on_init_mod(event)
     })
     remote.call("RitnCoreGame", "add_param_data", "surface", "requests", {})
     remote.call("RitnCoreGame", "add_param_data", "surface", "subscribers", {})
-    ----
-    remote.call('RitnBaseGame', "disable.lobby.on_player_changed_surface")
+    ------------------------------------------
+    remote.call('RitnBaseGame', "disable.lobby.setup_lobby_surface")
 
     log('on_init : RitnLobbyGame -> finish !')
 end

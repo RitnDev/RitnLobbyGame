@@ -39,7 +39,6 @@ defines.modules = {
     ----
     restart = dir .. ".modules.restart",
     lobby = dir .. ".modules.lobby",
-    inventory = dir .. ".modules.inventory",
     common = dir .. ".modules.common",
     request = dir .. ".modules.request",
     menu = dir .. ".modules.menu",

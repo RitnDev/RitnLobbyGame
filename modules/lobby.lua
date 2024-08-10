@@ -19,20 +19,11 @@ local function on_surface_deleted(e)
     log('on_pre_surface_deleted')
 end
 
+
+
 -- Event lorsqu'un joueur change de surface
 local function on_player_changed_surface(e)
     local rEvent = RitnCoreEvent(e)
-    local rPlayer = RitnCoreEvent(e):getPlayer()
-    local rSurface = rEvent:getSurface()
-
-    -- si c'est dans son lobby que le joueur arrive
-    if string.sub(rPlayer.surface.name, 1, string.len(rEvent.prefix_lobby)) == rEvent.prefix_lobby then
-        local rSurface = rEvent:getSurface()
-        rSurface:removePlayer(rPlayer.player)
-        rPlayer:setActive(false)
-        -- mettre le rPlayer dans la force "ritn~default"
-        rPlayer.player.force = rEvent.FORCE_DEFAULT_NAME
-    end
 
     -- actualise TOUS les GUI lobby des joueurs sur les surfaces lobby
     for _, LuaPlayer in pairs(game.players) do 
@@ -48,6 +39,7 @@ local function on_player_changed_surface(e)
     ----
     log('on_player_changed_surface')
 end
+
 
 
 
