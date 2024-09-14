@@ -85,9 +85,9 @@ function RitnLobbyGuiSurface:create(action_surface)
     if action_surface == "clean" then 
         for _,surface in pairs(surfaces) do 
             if surface.name ~= nil then
-                if surface.name ~= self.name then
-                    if game.players[surface.name] ~= nil then -- nauvis ou les lobby
-                        if surface.map_used == false then
+                if surface.map_used == false and surface.exception == false then
+                    if surface.name ~= self.name then
+                        if game.players[surface.name] ~= nil then -- nauvis ou les lobby
                             content.list.add_item(surface.name)
                         end
                     end

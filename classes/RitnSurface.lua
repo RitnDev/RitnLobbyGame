@@ -190,10 +190,10 @@ function RitnLobbySurface:rejectAllRequest(request_name)
     return self
 
 end
-  
+
 
 -- On supprime la surface et toutes les données liés dans global
-function RitnLobbySurface:clean()
+function RitnLobbySurface:clean()   --TODO : gerer exception = true
     local force_name = self.name
     ----
     -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
