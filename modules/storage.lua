@@ -1,8 +1,8 @@
 ---------------------------------------------------------------------------------------------
 -- GLOBALS
 ---------------------------------------------------------------------------------------------
-if global.lobby == nil then
-    global.lobby = { 
+if storage.lobby == nil then
+    storage.lobby = { 
         modules = {
             commands = true,
             restart = true,
@@ -109,19 +109,19 @@ local lobby_interface = {
     end,
     --disable modules
     ["disable.module.commands"] = function()
-        global.lobby.modules.commands = false
+        storage.lobby.modules.commands = false
     end,
     ["disable.module.restart"] = function()
-        global.lobby.modules.restart = false
+        storage.lobby.modules.restart = false
     end,
     ["disable.module.lobby"] = function()
-        global.lobby.modules.lobby = false
+        storage.lobby.modules.lobby = false
     end,
     ["disable.module.request"] = function()
-        global.lobby.modules.request = false
+        storage.lobby.modules.request = false
     end,
     ["disable.module.menu"] = function()
-        global.lobby.modules.menu = false
+        storage.lobby.modules.menu = false
     end,
 }
 remote.add_interface("RitnLobbyGame", lobby_interface)

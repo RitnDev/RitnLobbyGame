@@ -70,11 +70,14 @@ local function toggle_main_menu(event)
     remote.call("RitnLobbyGame", "gui_action_ritn", "button-menu", event)
 end 
 
----------------------------------------------------------------------------------------------
+
+-------------------------------------------
+local module = { events = {}}
+-------------------------------------------
 -- event : custom-input
-script.on_event(ritnlib.defines.lobby.names.customInput.toggle_main_menu, toggle_main_menu)
--- event : on_init
-script.on_init(on_init_mod)
-script.on_configuration_changed(on_configuration_changed)
----------------------------------------------------------------------------------------------
-return {}
+module.events[ritnlib.defines.lobby.names.customInput.toggle_main_menu] = toggle_main_menu
+-- event : on_init_mod
+module.on_init = on_init_mod
+module.on_configuration_changed = on_configuration_changed
+-------------------------------------------
+return module

@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+Date: 03.11.2024
+  Changes:
+    - Passage en 2.0.
+    - Variables "global" -> "storage".
+  Fixes:
+    - core.lualib.event_handler : on_init, on_configuration_changed passe dans le module désormais.
+    - Suppression l'appel de la methode self:delete() dans RitnLobbySurface:clean(), sera appelé lors de l'event
+      on_pre_surface_deleted dans RitnBaseGame.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 15.09.2024
   Bugfixes:

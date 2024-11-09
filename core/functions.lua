@@ -14,13 +14,13 @@ local function restart() --LuaPlayer
 
     local tab_player = {}
 
-    if global.teleport.surfaces[surface] then
+    if storage.teleport.surfaces[surface] then
         if game.surfaces[surface] then 
             local result = false 
             for _,player in pairs(game.players) do 
                 if player.surface.name == surface then 
-                    if global.teleport.players[player.name] then  -- fix 2.0.21
-                        if global.teleport.players[player.name].origine ~= surface then
+                    if storage.teleport.players[player.name] then  -- fix 2.0.21
+                        if storage.teleport.players[player.name].origine ~= surface then
                             if player.connected == true then
                                 result = true
                             end  
@@ -35,8 +35,8 @@ local function restart() --LuaPlayer
             end
             
             -- modif 1.8.0
-            for i,player in pairs(global.teleport.surfaces[surface].origine) do 
-                global.teleport.players[player] = nil
+            for i,player in pairs(storage.teleport.surfaces[surface].origine) do 
+                storage.teleport.players[player] = nil
 
                 -- modif 1.8.3
                 game.players[player].teleport({i-1,i-1}, "nauvis")
@@ -50,8 +50,8 @@ local function restart() --LuaPlayer
         end
         if game.forces[surface] then game.merge_forces(game.forces[surface], "player") end
         if game.forces[prefix_enemy .. surface] then game.merge_forces(game.forces[prefix_enemy .. surface], "enemy") end
-        global.teleport.surfaces[surface] = nil
-        global.teleport.surface_value = global.teleport.surface_value - 1
+        storage.teleport.surfaces[surface] = nil
+        storage.teleport.surface_value = storage.teleport.surface_value - 1
         log("[RITNTP] > RESTART OK for : " .. LuaPlayer.name)
 
         for i = 1, #tab_player do 
@@ -68,9 +68,9 @@ local function add_exception(player_name)
     local result = false
     if not game.players[player_name] then return result end
     if not game.surfaces[player_name] then return result end
-    if not global.teleport.surfaces[player_name] then return result end
-    if global.teleport.surfaces[player_name].exception == true then return result end
-    global.teleport.surfaces[player_name].exception = true
+    if not storage.teleport.surfaces[player_name] then return result end
+    if storage.teleport.surfaces[player_name].exception == true then return result end
+    storage.teleport.surfaces[player_name].exception = true
     result = true
     return result
 end
@@ -80,17 +80,17 @@ local function remove_exception(player_name)
     if not game.players[player_name] then return result end
     if game.players[player_name].admin == true then return result end
     if not game.surfaces[player_name] then return result end
-    if not global.teleport.surfaces[player_name] then return result end
-    if global.teleport.surfaces[player_name].exception == false then return result end
-    global.teleport.surfaces[player_name].exception = false
-    global.teleport.surfaces[player_name].last_use = game.tick
+    if not storage.teleport.surfaces[player_name] then return result end
+    if storage.teleport.surfaces[player_name].exception == false then return result end
+    storage.teleport.surfaces[player_name].exception = false
+    storage.teleport.surfaces[player_name].last_use = game.tick
     result = true
     return result
 end
 
 local function view_exception(LuaPlayer)
     if LuaPlayer then LuaPlayer.print("Exceptions :") else print("Exceptions :") end
-    for _,player in pairs(global.teleport.surfaces) do
+    for _,player in pairs(storage.teleport.surfaces) do
         if player.name ~= "nauvis" then 
             if player.exception == true then
                 if LuaPlayer then

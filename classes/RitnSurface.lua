@@ -94,12 +94,12 @@ function RitnLobbySurface:acceptRequest(request_name)
             self.data[self.name].requests[request_name] = nil
         end
     end
- 
+
     self:update()
 
     return self
 end
-  
+
 
 -- Rejeter une demande en cours
 -- @param request_name = joueur à refuser
@@ -216,7 +216,6 @@ function RitnLobbySurface:clean()   --TODO : gerer exception = true
     end
     ----
     game.delete_surface(self.name)
-    self:delete()
     ----
     if game.forces[force_name] then 
         game.merge_forces(game.forces[force_name], ritnlib.defines.core.names.force_default) 
@@ -243,8 +242,3 @@ function RitnLobbySurface:exclude(player_name)
     -- On téléporte le player dans son lobby
     rPlayer:teleportLobby()
 end
-
-
-
-----------------------------------------------------------------
---return RitnLobbySurface

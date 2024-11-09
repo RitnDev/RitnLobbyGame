@@ -39,13 +39,13 @@ commands.add_command("accept", "/accept <player>",
 local function exclusion(playerExclure, surface)
 
     --[[ if playerExclure == surface then return end
-    for i,player in pairs(global.teleport.surfaces[surface].origine) do 
+    for i,player in pairs(storage.teleport.surfaces[surface].origine) do 
         if player == playerExclure then 
             -- sauvegarde de l'inventaire avant exclusion
-            ritnlib.inventory.save(game.players[playerExclure], global.teleport.surfaces[surface].inventories[playerExclure])
+            ritnlib.inventory.save(game.players[playerExclure], storage.teleport.surfaces[surface].inventories[playerExclure])
             -- suppression du joueur dans origine de la map
-            table.remove(global.teleport.surfaces[surface].origine, i)
-            global.teleport.players[playerExclure] = nil
+            table.remove(storage.teleport.surfaces[surface].origine, i)
+            storage.teleport.players[playerExclure] = nil
 
             if game.players[playerExclure] 
             and game.players[playerExclure].valid 
@@ -86,8 +86,8 @@ function (e)
 
         if game.players[playerExclure] then
             if autorize then 
-                if global.teleport.players[playerExclure] then 
-                    local surface = global.teleport.players[playerExclure].origine
+                if storage.teleport.players[playerExclure] then 
+                    local surface = storage.teleport.players[playerExclure].origine
                     exclusion(playerExclure, surface)
                     if is_player then 
                         if LuaPlayer then 
@@ -110,8 +110,8 @@ commands.add_command("quit", "/quit",
         local LuaPlayer = game.players[e.player_index]
         if LuaPlayer then 
             local playerExclure = LuaPlayer.name
-            if global.teleport.players[playerExclure] then 
-                local surface = global.teleport.players[playerExclure].origine
+            if storage.teleport.players[playerExclure] then 
+                local surface = storage.teleport.players[playerExclure].origine
                 exclusion(playerExclure, surface)
             end
         end 
@@ -139,7 +139,7 @@ commands.add_command("clean", "<player>", function (e)
   if e.parameter ~= nil then
       local parametre = e.parameter
 
-      if global.tp.surfaces[parametre] then 
+      if storage.tp.surfaces[parametre] then 
           if autorize then 
           if is_player then
               -- by player : admin
