@@ -15,9 +15,10 @@ local function on_init_mod(event)
     ---------------------------------
     local options = remote.call("RitnCoreGame", "get_options")
     options.lobby = {
-        surfaces_max = settings.global[ritnlib.defines.lobby.names.settings.surfaceMax].value,
-        restart = settings.startup[ritnlib.defines.lobby.names.settings.restart].value
+        surfaces_max = settings.global[ritnlib.defines.lobby.names.settings.surfaceMax].value,      restart = settings.startup[ritnlib.defines.lobby.names.settings.restart].value
     }
+    -- On autorise pas l'accès à Nauvis
+    options.go_nauvis = false
     options.requests = {}
     options.custom_map_settings = {
         new_seed = not settings.startup[ritnlib.defines.lobby.names.settings.generate_seed].value

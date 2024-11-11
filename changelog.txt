@@ -4,6 +4,7 @@ Date: 03.11.2024
   Changes:
     - Passage en 2.0.
     - Variables "global" -> "storage".
+    - Le mod désactive l'option "go nauvis" de RitnBaseGame.
   Fixes:
     - core.lualib.event_handler : on_init, on_configuration_changed passe dans le module désormais.
     - Suppression l'appel de la methode self:delete() dans RitnLobbySurface:clean(), sera appelé lors de l'event
