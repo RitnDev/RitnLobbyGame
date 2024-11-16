@@ -8,6 +8,7 @@
   "dependencies":[
     "base",
     "RitnMenuButton >= 1.2",
-    "RitnBaseGame >= 0.6"
+    "RitnBaseGame >= 0.6",
+    "! space-age"
   ]
 }

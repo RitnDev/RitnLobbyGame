@@ -173,7 +173,7 @@ end
 
 -- Action de téléportation sur une map dans la liste du menu
 function RitnLobbyGuiSurface:teleport(surface_name)
-    RitnCorePlayer(self.player):teleport({0, 0}, surface_name, true)
+    RitnCorePlayer(self.player):teleport({0, 0}, surface_name, true, nil, true)
     self:print(self.name .." (tp) : " .. self.surface.name .. " -> " .. surface_name)
     return self
 end
