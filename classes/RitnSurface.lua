@@ -193,26 +193,45 @@ end
 
 
 -- On supprime la surface et toutes les données liés dans global
-function RitnLobbySurface:clean()   --TODO : gerer exception = true
+function RitnLobbySurface:clean()
     local force_name = self.name
+    local players_index = {}
     ----
-    -- On supprime de l'origine des joueurs ayant comme origine la surface à supprimer
+    if self:getException() == true then 
+        return false
+    end
+    -- Récupération des RitnDataPlayer
     local players = remote.call("RitnCoreGame", "get_players")
     for index, player in pairs(players) do 
 
         local rPlayer = RitnCorePlayer(game.players[player.name])
-
+        -- Si un joueur en ligne est sur la surface à supprimé on annule
+        if rPlayer.data[rPlayer.index].surface == self.name and rPlayer:isOnline() then
+            return false
+        end
+        
         -- si la surface à le meme nom que l'origine du joueur
         if rPlayer.data[rPlayer.index].origine == self.name then
+            -- si un joueurs en ligne a la surface à supprimer comme origine on annule
+            if rPlayer:isOnline() then return false end
+
             -- si le joueur à le meme nom que l'origine alors c'est le propriétaire de la surface
             if rPlayer:isOwner() then 
                 -- on récupère le nom de la force de ce joueur
-                force_name = rPlayer.force.name
+                force_name = rPlayer.data[rPlayer.index].origine
             end
-            -- reset de l'origine
-            rPlayer:setOrigine("")
-            rPlayer:teleportLobby()
+
+            -- enregistrement de l'index, on traite le reset origine et le teleportLobby 
+            -- après la fin de la boucle for
+            table.insert(players_index, rPlayer.index)
         end
+    end
+    -- Ici on est sûr de supprimer la surface
+    for _,index in pairs(players_index) do 
+        local rPlayer = RitnCorePlayer(game.players[index])
+        -- reset de l'origine
+        rPlayer:setOrigine("")         
+        rPlayer:teleportLobby()
     end
     ----
     game.delete_surface(self.name)
@@ -220,6 +239,8 @@ function RitnLobbySurface:clean()   --TODO : gerer exception = true
     if game.forces[force_name] then 
         game.merge_forces(game.forces[force_name], ritnlib.defines.core.names.force_default) 
     end
+
+    return true
 end
 
 

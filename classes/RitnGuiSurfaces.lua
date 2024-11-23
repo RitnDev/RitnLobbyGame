@@ -88,7 +88,18 @@ function RitnLobbyGuiSurface:create(action_surface)
                 if surface.map_used == false and surface.exception == false then
                     if surface.name ~= self.name then
                         if game.players[surface.name] ~= nil then -- nauvis ou les lobby
-                            content.list.add_item(surface.name)
+                            local clean_map = true
+                            for index,_ in pairs(players) do 
+                                if (players[index].surface == surface.name 
+                                or players[index].origine == surface.name) 
+                                and players[index].connected == true then 
+                                    clean_map = false
+                                    break
+                                end
+                            end
+                            if clean_map then 
+                                content.list.add_item(surface.name)
+                            end
                         end
                     end
                 end
@@ -183,11 +194,13 @@ end
 -- Action de suppression d'une surface d'un autre joueur dans la liste du menu
 function RitnLobbyGuiSurface:clean(surface_name)
     local rSurface = RitnLobbySurface(game.surfaces[surface_name])
-    if rSurface then 
-        rSurface:clean()
-    end
+    local result = false
     ----
-    self:print(self.name.." (clean) : "..surface_name)
+    if result then 
+        self:print(self.name.." (clean) : "..surface_name)
+    else
+        self:print(self.name.." (clean) : ## FAIL ##")
+    end
     return self
 end
 
