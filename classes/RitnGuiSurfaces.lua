@@ -3,6 +3,7 @@
 local modGui = require("mod-gui")
 ----------------------------------------------------------------
 local fGui = require(ritnlib.defines.lobby.gui.surfaces)
+local util = require(ritnlib.defines.other)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
@@ -195,6 +196,9 @@ end
 function RitnLobbyGuiSurface:clean(surface_name)
     local rSurface = RitnLobbySurface(game.surfaces[surface_name])
     local result = false
+    if (util.type(rSurface) == "RitnLibSurface") then 
+        result = rSurface:clean()
+    end
     ----
     if result then 
         self:print(self.name.." (clean) : "..surface_name)
