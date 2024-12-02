@@ -51,7 +51,7 @@ end
 
 local function on_runtime_mod_setting_changed(e)
     local rEvent = RitnCoreEvent(e)
-  
+
     if rEvent.setting_type == "runtime-global" then 
         if rEvent.setting_name == ritnlib.defines.lobby.names.settings.surfaceMax then
             local setting_value = settings.global[rEvent.setting_name].value
@@ -70,7 +70,6 @@ local function on_runtime_mod_setting_changed(e)
 
         end
     end
-  
 end
 
 

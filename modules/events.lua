@@ -36,6 +36,7 @@ local function on_init_mod(event)
     })
     remote.call("RitnCoreGame", "add_param_data", "surface", "requests", {})
     remote.call("RitnCoreGame", "add_param_data", "surface", "subscribers", {})
+    remote.call("RitnCoreGame", "add_param_data", "surface", "last_use", 0)
     ------------------------------------------
     remote.call('RitnBaseGame', "disable.lobby.setup_lobby_surface")
 
@@ -62,7 +63,10 @@ local function on_configuration_changed(event)
         new_seed = not settings.startup[ritnlib.defines.lobby.names.settings.generate_seed].value
     }
     remote.call("RitnCoreGame", "set_options", options)
-    ---
+    -----------------------------------------------------------
+    remote.call("RitnCoreGame", "add_param_data", "surface", "last_use", 0)
+    remote.call('RitnBaseGame', "disable.lobby.setup_lobby_surface")
+    -----------------------------------------------------------
     log('on_configuration_changed : RitnLobbyGame -> finish !')
 end
 

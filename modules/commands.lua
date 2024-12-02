@@ -1,6 +1,8 @@
 -- MODULE : COMMANDS
 ---------------------------------------------------------------------------------
-
+local util = require(ritnlib.defines.other)
+local string = require(ritnlib.defines.string)
+---------------------------------------------------------------------------------
 
 -- Débloquer les requêtes d'un joueur ou l'accepter
 commands.add_command("accept", "/accept <player>", 
@@ -106,53 +108,71 @@ function (e)
 -- Quitter par soit même la map.
 commands.add_command("quit", "/quit", 
     function (e)
-        --[[ 
-        local LuaPlayer = game.players[e.player_index]
-        if LuaPlayer then 
-            local playerExclure = LuaPlayer.name
-            if storage.teleport.players[playerExclure] then 
-                local surface = storage.teleport.players[playerExclure].origine
-                exclusion(playerExclure, surface)
-            end
-        end 
-        ]]
+        if e.player_index then
+            local LuaPlayer = game.players[e.player_index]
+            if util.type(LuaPlayer) == "LuaPlayer" then
+                local players = remote.call("RitnCoreGame", "get_players")
+
+                if players[e.player_index] then 
+                    local surface = players[e.player_index].origine
+                    -- on vérifie qu'il soit bien sur sa s
+                    if players[e.player_index].surface == surface then 
+                        RitnCorePlayer(LuaPlayer):teleportLobby():setOrigine(string.TOKEN_EMPTY_STRING)
+                    end
+                end
+            end 
+        end
     end
 )
 
 
-
+-- Admin only
 commands.add_command("clean", "<player>", function (e)
---[[ 
-  local autorize = false
-  local is_player = false
+    local autorize = false
+    local is_player = false
 
-  if e.player_index then 
-      local LuaPlayer = game.players[e.player_index]
-      if LuaPlayer.admin or LuaPlayer.name == "Ritn" then
-          autorize = true
-          is_player = true
-      end
-  else 
-      autorize = true
-  end
-  
-  if e.parameter ~= nil then
-      local parametre = e.parameter
+    if e.player_index then 
+        local LuaPlayer = game.players[e.player_index]
+        if LuaPlayer.admin or LuaPlayer.name == "Ritn" or LuaPlayer.name == "RitnDev" then
+            autorize = true
+            is_player = true
+        end
+    else 
+        autorize = true
+    end
+    
+    if e.parameter ~= nil then
+        local surface_name = e.parameter
+        local surfaces = remote.call("RitnCoreGame", "get_surfaces")
 
-      if storage.tp.surfaces[parametre] then 
-          if autorize then 
-          if is_player then
-              -- by player : admin
-              events.utils.clean(parametre, game.players[e.player_index])
-          else 
-              -- by server
-              events.utils.clean(parametre)
-          end
-          end
-      end
-  end
- ]]
+        if surfaces[surface_name] then 
+            if autorize then 
+
+                local rSurface = RitnLobbySurface(game.surfaces[surface_name])
+                local result = false
+                if (util.type(rSurface) == "RitnLibSurface") then 
+                    result = rSurface:clean()
+                end
+                ----
+                local message = " (clean) : "
+                if result then 
+                    message = message..surface_name
+                else
+                    message = message.."## FAIL ##"
+                end
+
+                if is_player then 
+                    game.players[e.player_index].print(message)
+                else
+                    print(message)
+                end
+            end
+        end
+    end
+
 end)
+
+
 
 commands.add_command("exception", "<add/remove/view> <player>", function(e)
  --[[ 
